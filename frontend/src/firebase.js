@@ -1,0 +1,1 @@
+// Firebase removed as per user request

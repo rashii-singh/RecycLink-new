@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RecycLink | AI Waste Segregation</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <!-- Phosphor Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+</head>
+<body>
+    <div class="background-blobs">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+    </div>
+
+    <main class="container">
+        <header class="header">
+            <div class="logo">
+                <i class="ph-fill ph-leaf"></i>
+                <h1>RecycLink</h1>
+            </div>
+            <p class="subtitle">AI-Powered Waste Segregation</p>
+        </header>
+
+        <section class="card glass">
+            <div class="upload-area" id="drop-zone">
+                <input type="file" id="file-input" accept="image/png, image/jpeg, image/jpg" hidden>
+                <div class="upload-content">
+                    <i class="ph ph-upload-simple upload-icon"></i>
+                    <h2>Drag & Drop your image</h2>
+                    <p>or <span class="browse-btn">browse files</span></p>
+                    <p class="file-hint">Supports: JPG, JPEG, PNG</p>
+                </div>
+            </div>
+
+            <div class="loading-state hidden" id="loading-state">
+                <div class="spinner"></div>
+                <p>Analyzing with AI...</p>
+            </div>
+
+            <div class="result-area hidden" id="result-area">
+                <div class="preview-container">
+                    <img id="image-preview" src="" alt="Uploaded waste">
+                </div>
+                
+                <div class="analysis-results">
+                    <div class="category-badge" id="category-badge">
+                        <i class="ph ph-recycle"></i>
+                        <span id="category-name">Plastic</span>
+                    </div>
+                    
+                    <div class="confidence-container">
+                        <div class="confidence-header">
+                            <span>AI Confidence</span>
+                            <span id="confidence-value">98.5%</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="confidence-fill" style="width: 0%"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="instructions-card">
+                        <h3><i class="ph ph-info"></i> Disposal Instructions</h3>
+                        <p id="instructions-text">Rinse out any residue. Place in the blue recycling bin.</p>
+                    </div>
+
+                    <button class="reset-btn" id="reset-btn">
+                        <i class="ph ph-arrow-counter-clockwise"></i> Scan Another Item
+                    </button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>

@@ -169,16 +169,16 @@ export default function Home() {
     return (
         <div className="home-container page-container fade-in">
             <div className="hero-section" style={{ marginBottom: '1.5rem', textAlign: 'left' }}>
-                <h1 className="hero-title" style={{ marginBottom: '0.6rem', paddingBottom: '0.4rem', textAlign: 'left' }}>
+                <h1 className="hero-title" style={{ marginBottom: '0.6rem', paddingBottom: '0.4rem', textAlign: 'left', lineHeight: '1.2' }}>
                     Recycle Smart, Live Green
                 </h1>
-                <p className="hero-subtitle" style={{ fontSize: '1.1rem', margin: '0', maxWidth: '800px', lineHeight: '1.6', textAlign: 'left', fontWeight: '500', color: 'var(--text-secondary)' }}>
-                    Smarter waste segregation and optimized collection powered by real-time data and AI.<br />
+                <p className="hero-subtitle" style={{ fontSize: '1rem', margin: '0', maxWidth: '800px', lineHeight: '1.5', textAlign: 'left', fontWeight: '500', color: 'var(--text-secondary)' }}>
+                    Smarter waste segregation and optimized collection powered by real-time data and AI.<br className="desktop-only" />
                     Join the sustainable revolution today.
                 </p>
             </div>
 
-            <div className="upload-wrapper" style={{ width: '100%', background: 'var(--accent-green-soft)', padding: '1rem 2rem', borderRadius: '32px', border: '1px solid var(--accent-green)22', marginBottom: '1.5rem' }}>
+            <div className="upload-wrapper responsive-padding" style={{ width: '100%', background: 'var(--accent-green-soft)', padding: '1.5rem', borderRadius: '32px', border: '1px solid var(--accent-green)22', marginBottom: '1.5rem' }}>
                 <div style={{ textAlign: 'center', marginBottom: '0.2rem' }}>
                     <h2 style={{ marginBottom: '0.25rem' }}>AI Waste Detection</h2>
                     <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>Upload an image to identify the waste type and get disposal instructions.</p>
@@ -226,7 +226,7 @@ export default function Home() {
                         <h2 style={{ textAlign: 'center', marginBottom: '1rem' }}>Waste Segregation Guide</h2>
                         <div className="guide-grid" style={{
                             display: 'grid',
-                            gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
+                            gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))',
                             gap: '1rem',
                             width: '100%'
                         }}>
@@ -254,18 +254,21 @@ export default function Home() {
                     onClick={() => setSelectedCategory(null)}
                 >
                     <div
+                        className="responsive-modal-content"
                         style={{
                             background: 'var(--bg-color)',
                             borderRadius: '16px',
                             width: '100%',
                             maxWidth: '650px',
-                            padding: '2.5rem',
+                            padding: '2rem 1.5rem',
                             position: 'relative',
                             boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
                             display: 'flex',
                             flexDirection: 'column',
                             animation: 'fade-in-up 0.3s ease-out',
-                            border: '1px solid var(--card-border)'
+                            border: '1px solid var(--card-border)',
+                            maxHeight: '90vh',
+                            overflowY: 'auto'
                         }}
                         onClick={e => e.stopPropagation()}
                     >
@@ -290,8 +293,8 @@ export default function Home() {
                             <h2 style={{ margin: 0, fontSize: '1.6rem', fontWeight: '800' }}>{selectedCategory.title}</h2>
                         </div>
 
-                        <div style={{ display: 'flex', gap: '2.5rem' }}>
-                            <div style={{ flex: 1, borderRight: '2px solid var(--border-color)', paddingRight: '2.5rem' }}>
+                        <div style={{ display: 'flex', gap: '2rem', flexWrap: 'wrap' }}>
+                            <div style={{ flex: '1 1 240px', borderRight: '2px solid var(--border-color)', paddingRight: '1.5rem', borderBottom: 'none' }} className="modal-split-border">
                                 <h3 style={{ fontSize: '1rem', margin: '0 0 1rem 0', color: 'var(--text-primary)', fontWeight: '700' }}>Items include:</h3>
                                 <ul style={{ margin: 0, paddingLeft: '1.2rem', color: 'var(--text-secondary)', display: 'flex', flexDirection: 'column', gap: '0.8rem' }}>
                                     {selectedCategory.items.map((item, i) => (
@@ -300,7 +303,7 @@ export default function Home() {
                                 </ul>
                             </div>
 
-                            <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', textAlign: 'center', gap: '1rem' }}>
+                            <div style={{ flex: '1 1 240px', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', textAlign: 'center', gap: '1rem', paddingBottom: '1rem' }}>
                                 <h3 style={{ fontSize: '1.1rem', margin: 0, color: selectedCategory.dustbinHex, fontWeight: '800' }}>Use {selectedCategory.dustbinColor} Dustbin</h3>
                                 <svg width="70" height="90" viewBox="0 0 24 24" fill={selectedCategory.dustbinHex} xmlns="http://www.w3.org/2000/svg">
                                     {/* Bin Lid */}

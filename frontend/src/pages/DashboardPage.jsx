@@ -74,7 +74,7 @@ export default function DashboardPage() {
     return (
         <div className="dashboard-container fade-in">
             {/* Header Section */}
-            <div style={{ textAlign: 'left', paddingLeft: '0.5rem', marginBottom: '2.5rem' }}>
+            <div style={{ textAlign: 'left', paddingLeft: '0.2rem', marginBottom: '2.5rem', paddingTop: '0.8rem' }}>
                 <h1 style={{ fontSize: '2rem', color: 'var(--heading-color)', fontWeight: '700', margin: '0 0 0.5rem 0', lineHeight: '1.2', paddingBottom: '0.2rem' }}>
                     Smart Waste Collection Dashboard
                 </h1>
@@ -90,14 +90,14 @@ export default function DashboardPage() {
                 style={{
                     background: 'var(--card-bg)',
                     borderRadius: '20px',
-                    padding: '1.5rem 2.5rem',
+                    padding: '1.5rem 2rem',
                     boxShadow: 'var(--shadow-sm)',
                     marginBottom: '3rem',
                     display: 'flex',
                     alignItems: 'center',
-                    justifyContent: 'space-between',
-                    flexWrap: 'wrap',
-                    gap: '2rem',
+                    justifyContent: 'flex-start',
+                    maxWidth: '800px',
+                    gap: '1.5rem',
                     cursor: 'pointer',
                     transition: 'all 0.2s ease',
                     border: '1px solid var(--border-color)'
@@ -105,9 +105,9 @@ export default function DashboardPage() {
                 onMouseEnter={(e) => { e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = 'var(--shadow-md)'; e.currentTarget.style.borderColor = 'var(--accent-green)' }}
                 onMouseLeave={(e) => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = 'var(--shadow-sm)'; e.currentTarget.style.borderColor = 'var(--border-color)' }}
             >
-                <div style={{ display: 'flex', alignItems: 'center', gap: '2rem', flex: '1 1 300px' }}>
-                    <div style={{ width: '85px', height: '85px', borderRadius: '50%', background: 'var(--card-bg)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, border: '1px solid var(--border-color)' }}>
-                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#16a34a" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem', flex: '1 1 auto', flexWrap: 'wrap' }}>
+                    <div style={{ width: '60px', height: '60px', borderRadius: '50%', background: 'var(--card-bg)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, border: '1px solid var(--border-color)' }}>
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#16a34a" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                             <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
                             <line x1="16" y1="2" x2="16" y2="6"></line>
                             <line x1="8" y1="2" x2="8" y2="6"></line>
@@ -115,156 +115,158 @@ export default function DashboardPage() {
                             <path d="M9 16l2 2 4-4"></path>
                         </svg>
                     </div>
-                    <div style={{ textAlign: 'left' }}>
-                        <h2 style={{ fontSize: '1.75rem', color: 'var(--heading-color)', margin: '0 0 0.25rem 0', fontWeight: '700' }}>
+                    <div style={{ textAlign: 'left', minWidth: '200px' }}>
+                        <h2 style={{ fontSize: '1.4rem', color: 'var(--heading-color)', margin: '0 0 0.25rem 0', fontWeight: '700' }}>
                             Request Pickup
                         </h2>
-                        <p style={{ fontSize: '1rem', color: 'var(--text-secondary)', margin: 0 }}>
+                        <p style={{ fontSize: '0.9rem', color: 'var(--text-secondary)', margin: 0 }}>
                             Schedule a pickup for your waste easily.
                         </p>
                     </div>
                 </div>
 
-                <div style={{ display: 'flex', alignItems: 'center', gap: '2.5rem', flexWrap: 'wrap', justifyContent: 'center' }}>
-                    <svg width="280" height="140" viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg" style={{ filter: 'drop-shadow(0 10px 15px rgba(0,0,0,0.1))' }}>
-                        {/* Shadow */}
-                        <ellipse cx="200" cy="180" rx="160" ry="8" fill="rgba(0,0,0,0.06)" />
-                        
-                        {/* Bin Back */}
-                        <path d="M 360 50 L 380 60 V 150 L 360 160 Z" fill="#166534" />
-                        
-                        {/* Container / Bin */}
-                        <path d="M 140 30 H 360 C 370 30 380 40 380 55 L 360 160 C 358 165 350 170 340 170 H 140 Z" fill="#16a34a" />
-                        
-                        {/* Blue Swooshes */}
-                        <path d="M 140 30 H 200 L 160 170 H 140 Z" fill="#1d4ed8" opacity="0.9" />
-                        <path d="M 195 30 H 220 L 180 170 H 155 Z" fill="#2563eb" opacity="0.8" />
-                        
-                        {/* Standardized Logo on Back with White Base - Centered Alignment */}
-                        <g transform="translate(225, 62) scale(0.55)">
-                            <circle cx="50" cy="50" r="45" fill="white" />
-                            <g transform="scale(0.9) translate(5, 5)">
-                                {/* Top Green Arrow */}
-                                <path 
-                                    d="M 20 39 A 32 32 0 0 1 80 39" 
-                                    stroke="#16a34a" 
-                                    strokeWidth="12" 
-                                    fill="none" 
-                                />
-                                <path 
-                                    d="M 90.3 35.3 L 69.7 42.7 L 86.1 55.9 Z" 
-                                    fill="#16a34a" 
-                                />
+                <div style={{ display: 'flex', alignItems: 'center', marginLeft: 'auto', flexWrap: 'wrap', justifyContent: 'center', gap: '1rem' }}>
+                    <div className="desktop-only">
+                        <svg width="240" height="120" viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg" style={{ filter: 'drop-shadow(0 10px 15px rgba(0,0,0,0.1))' }}>
+                            {/* Shadow */}
+                            <ellipse cx="200" cy="180" rx="160" ry="8" fill="rgba(0,0,0,0.06)" />
+                            
+                            {/* Bin Back */}
+                            <path d="M 360 50 L 380 60 V 150 L 360 160 Z" fill="#166534" />
+                            
+                            {/* Container / Bin */}
+                            <path d="M 140 30 H 360 C 370 30 380 40 380 55 L 360 160 C 358 165 350 170 340 170 H 140 Z" fill="#16a34a" />
+                            
+                            {/* Blue Swooshes */}
+                            <path d="M 140 30 H 200 L 160 170 H 140 Z" fill="#1d4ed8" opacity="0.9" />
+                            <path d="M 195 30 H 220 L 180 170 H 155 Z" fill="#2563eb" opacity="0.8" />
+                            
+                            {/* Standardized Logo on Back with White Base - Centered Alignment */}
+                            <g transform="translate(225, 62) scale(0.55)">
+                                <circle cx="50" cy="50" r="45" fill="white" />
+                                <g transform="scale(0.9) translate(5, 5)">
+                                    {/* Top Green Arrow */}
+                                    <path 
+                                        d="M 20 39 A 32 32 0 0 1 80 39" 
+                                        stroke="#16a34a" 
+                                        strokeWidth="12" 
+                                        fill="none" 
+                                    />
+                                    <path 
+                                        d="M 90.3 35.3 L 69.7 42.7 L 86.1 55.9 Z" 
+                                        fill="#16a34a" 
+                                    />
 
-                                {/* Bottom Blue Arrow */}
-                                <path 
-                                    d="M 80 61 A 32 32 0 0 1 20 61" 
-                                    stroke="#1d4ed8" 
-                                    strokeWidth="12" 
-                                    fill="none" 
-                                />
-                                <path 
-                                    d="M 9.7 64.7 L 30.3 57.3 L 13.9 44.1 Z" 
-                                    fill="#1d4ed8" 
-                                />
+                                    {/* Bottom Blue Arrow */}
+                                    <path 
+                                        d="M 80 61 A 32 32 0 0 1 20 61" 
+                                        stroke="#1d4ed8" 
+                                        strokeWidth="12" 
+                                        fill="none" 
+                                    />
+                                    <path 
+                                        d="M 9.7 64.7 L 30.3 57.3 L 13.9 44.1 Z" 
+                                        fill="#1d4ed8" 
+                                    />
 
-                                {/* Center Dustbin */}
-                                <g transform="translate(50, 50) scale(0.9)">
-                                    <rect x="-6" y="-18" width="12" height="4" rx="2" fill="#16a34a" />
-                                    <rect x="-12" y="-14" width="24" height="4" rx="1" fill="#16a34a" />
-                                    <path d="M -10 -10 L 10 -10 L 8 12 L -8 12 Z" fill="#16a34a" />
-                                    <rect x="-4.5" y="-7" width="2" height="13" rx="1" fill="white" />
-                                    <rect x="-1" y="-7" width="2" height="13" rx="1" fill="white" />
-                                    <rect x="2.5" y="-7" width="2" height="13" rx="1" fill="white" />
+                                    {/* Center Dustbin */}
+                                    <g transform="translate(50, 50) scale(0.9)">
+                                        <rect x="-6" y="-18" width="12" height="4" rx="2" fill="#16a34a" />
+                                        <rect x="-12" y="-14" width="24" height="4" rx="1" fill="#16a34a" />
+                                        <path d="M -10 -10 L 10 -10 L 8 12 L -8 12 Z" fill="#16a34a" />
+                                        <rect x="-4.5" y="-7" width="2" height="13" rx="1" fill="white" />
+                                        <rect x="-1" y="-7" width="2" height="13" rx="1" fill="white" />
+                                        <rect x="2.5" y="-7" width="2" height="13" rx="1" fill="white" />
+                                    </g>
                                 </g>
                             </g>
-                        </g>
 
-                        {/* branding on container - Moved right to align with logo center */}
-                        <g transform="translate(252.5, 130)">
-                            <text x="0" y="0" textAnchor="middle" fontFamily="sans-serif" fontSize="22" fontWeight="900" fill="white" style={{ letterSpacing: '1px' }}>Recyc<tspan fill="#93c5fd">Link</tspan></text>
-                        </g>
-                        
-                        {/* Chassis */}
-                        <rect x="50" y="155" width="310" height="15" rx="5" fill="#374151" />
-                        
-                        {/* Cabin */}
-                        <path d="M 40 75 C 40 60 55 50 75 50 H 140 V 170 H 50 C 35 170 25 155 30 140 L 40 75 Z" fill="#ffffff" />
-                        
-                        {/* Windows */}
-                        <path d="M 45 80 C 45 70 55 60 70 60 H 125 V 105 H 40 L 45 80 Z" fill="#e5e7eb" />
-                        <path d="M 47 82 C 47 73 56 63 70 63 H 122 V 102 H 42 L 47 82 Z" fill="#1f2937" />
-                        
-                        {/* Door Lines */}
-                        <line x1="125" y1="50" x2="125" y2="170" stroke="#e5e7eb" strokeWidth="2" />
-                        <path d="M 70 105 V 170" stroke="#e5e7eb" strokeWidth="2" />
-                        <line x1="70" y1="170" x2="125" y2="170" stroke="#e5e7eb" strokeWidth="2" />
-                        <rect x="110" y="115" width="10" height="4" rx="2" fill="#9ca3af" />
-                        
-                        {/* Bumper */}
-                        <path d="M 20 135 H 50 V 160 H 20 C 12 160 12 145 20 135 Z" fill="#1f2937" />
-                        <circle cx="30" cy="148" r="5" fill="#facc15" />
-                        <circle cx="30" cy="148" r="2" fill="#fff" />
-                        
-                        {/* Logo on Door - Moved Higher to avoid wheel */}
-                        <g transform="translate(80, 115) scale(0.38)">
-                            <circle cx="50" cy="50" r="45" fill="white" />
-                            <g transform="scale(0.9) translate(5, 5)">
-                                {/* Top Green Arrow */}
-                                <path 
-                                    d="M 20 39 A 32 32 0 0 1 80 39" 
-                                    stroke="#22C55E" 
-                                    strokeWidth="12" 
-                                    fill="none" 
-                                />
-                                <path 
-                                    d="M 90.3 35.3 L 69.7 42.7 L 86.1 55.9 Z" 
-                                    fill="#22C55E" 
-                                />
+                            {/* branding on container - Moved right to align with logo center */}
+                            <g transform="translate(252.5, 130)">
+                                <text x="0" y="0" textAnchor="middle" fontFamily="sans-serif" fontSize="22" fontWeight="900" fill="white" style={{ letterSpacing: '1px' }}>Recyc<tspan fill="#93c5fd">Link</tspan></text>
+                            </g>
+                            
+                            {/* Chassis */}
+                            <rect x="50" y="155" width="310" height="15" rx="5" fill="#374151" />
+                            
+                            {/* Cabin */}
+                            <path d="M 40 75 C 40 60 55 50 75 50 H 140 V 170 H 50 C 35 170 25 155 30 140 L 40 75 Z" fill="#ffffff" />
+                            
+                            {/* Windows */}
+                            <path d="M 45 80 C 45 70 55 60 70 60 H 125 V 105 H 40 L 45 80 Z" fill="#e5e7eb" />
+                            <path d="M 47 82 C 47 73 56 63 70 63 H 122 V 102 H 42 L 47 82 Z" fill="#1f2937" />
+                            
+                            {/* Door Lines */}
+                            <line x1="125" y1="50" x2="125" y2="170" stroke="#e5e7eb" strokeWidth="2" />
+                            <path d="M 70 105 V 170" stroke="#e5e7eb" strokeWidth="2" />
+                            <line x1="70" y1="170" x2="125" y2="170" stroke="#e5e7eb" strokeWidth="2" />
+                            <rect x="110" y="115" width="10" height="4" rx="2" fill="#9ca3af" />
+                            
+                            {/* Bumper */}
+                            <path d="M 20 135 H 50 V 160 H 20 C 12 160 12 145 20 135 Z" fill="#1f2937" />
+                            <circle cx="30" cy="148" r="5" fill="#facc15" />
+                            <circle cx="30" cy="148" r="2" fill="#fff" />
+                            
+                            {/* Logo on Door - Moved Higher to avoid wheel */}
+                            <g transform="translate(80, 115) scale(0.38)">
+                                <circle cx="50" cy="50" r="45" fill="white" />
+                                <g transform="scale(0.9) translate(5, 5)">
+                                    {/* Top Green Arrow */}
+                                    <path 
+                                        d="M 20 39 A 32 32 0 0 1 80 39" 
+                                        stroke="#22C55E" 
+                                        strokeWidth="12" 
+                                        fill="none" 
+                                    />
+                                    <path 
+                                        d="M 90.3 35.3 L 69.7 42.7 L 86.1 55.9 Z" 
+                                        fill="#22C55E" 
+                                    />
 
-                                {/* Bottom Blue Arrow */}
-                                <path 
-                                    d="M 80 61 A 32 32 0 0 1 20 61" 
-                                    stroke="#1D4ED8" 
-                                    strokeWidth="12" 
-                                    fill="none" 
-                                />
-                                <path 
-                                    d="M 9.7 64.7 L 30.3 57.3 L 13.9 44.1 Z" 
-                                    fill="#1D4ED8" 
-                                />
+                                    {/* Bottom Blue Arrow */}
+                                    <path 
+                                        d="M 80 61 A 32 32 0 0 1 20 61" 
+                                        stroke="#1D4ED8" 
+                                        strokeWidth="12" 
+                                        fill="none" 
+                                    />
+                                    <path 
+                                        d="M 9.7 64.7 L 30.3 57.3 L 13.9 44.1 Z" 
+                                        fill="#1D4ED8" 
+                                    />
 
-                                {/* Center Dustbin */}
-                                <g transform="translate(50, 50) scale(0.9)">
-                                    <rect x="-6" y="-18" width="12" height="4" rx="2" fill="#22C55E" />
-                                    <rect x="-12" y="-14" width="24" height="4" rx="1" fill="#22C55E" />
-                                    <path d="M -10 -10 L 10 -10 L 8 12 L -8 12 Z" fill="#22C55E" />
-                                    <rect x="-4.5" y="-7" width="2" height="13" rx="1" fill="white" />
-                                    <rect x="-1" y="-7" width="2" height="13" rx="1" fill="white" />
-                                    <rect x="2.5" y="-7" width="2" height="13" rx="1" fill="white" />
+                                    {/* Center Dustbin */}
+                                    <g transform="translate(50, 50) scale(0.9)">
+                                        <rect x="-6" y="-18" width="12" height="4" rx="2" fill="#22C55E" />
+                                        <rect x="-12" y="-14" width="24" height="4" rx="1" fill="#22C55E" />
+                                        <path d="M -10 -10 L 10 -10 L 8 12 L -8 12 Z" fill="#22C55E" />
+                                        <rect x="-4.5" y="-7" width="2" height="13" rx="1" fill="white" />
+                                        <rect x="-1" y="-7" width="2" height="13" rx="1" fill="white" />
+                                        <rect x="2.5" y="-7" width="2" height="13" rx="1" fill="white" />
+                                    </g>
                                 </g>
                             </g>
-                        </g>
-                        
-                        {/* Wheels */}
-                        <circle cx="85" cy="170" r="24" fill="#111827" />
-                        <circle cx="85" cy="170" r="16" fill="#4b5563" />
-                        <circle cx="85" cy="170" r="10" fill="#9ca3af" />
-                        <circle cx="85" cy="170" r="4" fill="#f3f4f6" />
-                        
-                        <circle cx="260" cy="170" r="24" fill="#111827" />
-                        <circle cx="260" cy="170" r="16" fill="#4b5563" />
-                        <circle cx="260" cy="170" r="10" fill="#9ca3af" />
-                        <circle cx="260" cy="170" r="4" fill="#f3f4f6" />
-                        
-                        <circle cx="315" cy="170" r="24" fill="#111827" />
-                        <circle cx="315" cy="170" r="16" fill="#4b5563" />
-                        <circle cx="315" cy="170" r="10" fill="#9ca3af" />
-                        <circle cx="315" cy="170" r="4" fill="#f3f4f6" />
-                    </svg>
+                            
+                            {/* Wheels */}
+                            <circle cx="85" cy="170" r="24" fill="#111827" />
+                            <circle cx="85" cy="170" r="16" fill="#4b5563" />
+                            <circle cx="85" cy="170" r="10" fill="#9ca3af" />
+                            <circle cx="85" cy="170" r="4" fill="#f3f4f6" />
+                            
+                            <circle cx="260" cy="170" r="24" fill="#111827" />
+                            <circle cx="260" cy="170" r="16" fill="#4b5563" />
+                            <circle cx="260" cy="170" r="10" fill="#9ca3af" />
+                            <circle cx="260" cy="170" r="4" fill="#f3f4f6" />
+                            
+                            <circle cx="315" cy="170" r="24" fill="#111827" />
+                            <circle cx="315" cy="170" r="16" fill="#4b5563" />
+                            <circle cx="315" cy="170" r="10" fill="#9ca3af" />
+                            <circle cx="315" cy="170" r="4" fill="#f3f4f6" />
+                        </svg>
+                    </div>
 
-                    <div style={{ width: '60px', height: '60px', borderRadius: '50%', background: 'var(--card-bg)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, border: '1px solid var(--border-color)' }}>
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#16a34a" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                    <div style={{ width: '45px', height: '45px', borderRadius: '50%', background: 'var(--card-bg)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, border: '1px solid var(--border-color)' }}>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#16a34a" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
                             <polyline points="9 18 15 12 9 6"></polyline>
                         </svg>
                     </div>
@@ -273,12 +275,12 @@ export default function DashboardPage() {
 
             {/* Requests List Section */}
             <div style={{ marginBottom: '3rem' }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '2rem' }}>
-                    <div style={{ textAlign: 'left' }}>
-                        <h2 style={{ fontSize: '2.1rem', color: 'var(--text-primary)', margin: '0 0 0.5rem 0', fontWeight: '700' }}>Active Pickup Requests</h2>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '2rem', flexWrap: 'wrap', gap: '1rem' }}>
+                    <div style={{ textAlign: 'left', minWidth: '280px' }}>
+                        <h2 style={{ fontSize: '1.8rem', color: 'var(--text-primary)', margin: '0 0 0.5rem 0', fontWeight: '700' }}>Active Pickup Requests</h2>
                         <p style={{ color: 'var(--text-secondary)', margin: 0 }}>Monitor all your pending and active pickup requests</p>
                     </div>
-                    <div style={{ background: 'var(--card-bg)', border: '1px solid var(--border-color)', padding: '0.4rem 1rem', borderRadius: '20px', fontSize: '0.85rem', color: 'var(--text-secondary)', fontWeight: '600' }}>
+                    <div style={{ background: 'var(--card-bg)', border: '1px solid var(--border-color)', padding: '0.4rem 1rem', borderRadius: '20px', fontSize: '0.85rem', color: 'var(--text-secondary)', fontWeight: '600', marginLeft: 'auto' }}>
                         Total: {requests.length}
                     </div>
                 </div>
@@ -383,7 +385,7 @@ export default function DashboardPage() {
                                 boxShadow: '0 4px 15px rgba(0,0,0,0.03)',
                                 transition: 'all 0.2s'
                             }}>
-                                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+                                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '1.5rem' }}>
                                     <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem', textAlign: 'left' }}>
                                         <div style={{ width: '55px', height: '55px', background: 'var(--card-bg)', border: '1px solid var(--border-color)', borderRadius: '15px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.6rem' }}>
                                             {req.category.includes('Plastic') ? '🧴' : req.category.includes('E-Waste') ? '💻' : '📦'}

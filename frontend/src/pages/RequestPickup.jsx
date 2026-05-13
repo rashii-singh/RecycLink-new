@@ -144,7 +144,7 @@ export default function RequestPickup() {
                 {/* Waste Type Selection */}
                 <div className="info-card" style={{ background: 'var(--card-bg)', borderRadius: '20px', padding: '1.25rem', border: '1px solid var(--border-color)' }}>
                     <h3 style={{ margin: '0 0 1rem 0' }}>Select Waste Types</h3>
-                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.8rem' }}>
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(100px, 1fr))', gap: '0.8rem' }}>
                         {WASTE_TYPES.map(type => (
                             <div
                                 key={type}
@@ -204,22 +204,22 @@ export default function RequestPickup() {
                         transform: 'translate(-50%, -50%)',
                         background: 'var(--card-bg)',
                         backdropFilter: 'blur(16px)',
-                        padding: '3rem',
+                        padding: '2rem 1.5rem',
                         borderRadius: '30px',
                         boxShadow: '0 20px 50px rgba(0,0,0,0.15)',
-                        zIndex: 1000,
+                        zIndex: 2000,
                         textAlign: 'center',
                         display: 'flex',
                         flexDirection: 'column',
                         alignItems: 'center',
                         gap: '1rem',
                         border: '2px solid var(--accent-blue)',
-                        width: '90%',
+                        width: 'calc(100% - 30px)',
                         maxWidth: '400px'
                     }}>
-                        <div style={{ fontSize: '4rem' }}>🎉</div>
-                        <h2 style={{ fontSize: '2rem', color: 'var(--accent-green)', margin: 0, background: 'none', webkitTextFillColor: 'initial' }}>Order Successful!</h2>
-                        <p style={{ color: 'var(--text-secondary)', fontWeight: '500' }}>Your waste pickup has been scheduled. You will be redirected to the dashboard shortly.</p>
+                        <div style={{ fontSize: '3rem' }}>🎉</div>
+                        <h2 style={{ fontSize: '1.75rem', color: 'var(--accent-green)', margin: 0, background: 'none', webkitTextFillColor: 'initial', lineHeight: '1.2' }}>Order Successful!</h2>
+                        <p style={{ color: 'var(--text-secondary)', fontWeight: '500', fontSize: '0.9rem' }}>Your waste pickup has been scheduled. You will be redirected to the dashboard shortly.</p>
                         <div style={{ width: '100%', height: '4px', background: 'var(--accent-blue-soft)', borderRadius: '2px', overflow: 'hidden', marginTop: '1rem' }}>
                             <div className="progress-bar-fill" style={{ width: '100%', height: '100%', background: 'linear-gradient(90deg, var(--accent-blue), var(--accent-green))', animation: 'progress 2s linear' }}></div>
                         </div>

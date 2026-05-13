@@ -138,7 +138,7 @@ export default function SellRecyclables() {
                 </div>
 
                 {activeTab === 'sell' ? (
-                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(350px, 1fr))', gap: '2rem' }}>
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '2rem' }}>
                         
                         {/* Sell Form */}
                         <div className="info-card" style={{ padding: '1.5rem' }}>
@@ -148,7 +148,7 @@ export default function SellRecyclables() {
                                 {/* Item Type */}
                                 <div>
                                     <label style={{ display: 'block', marginBottom: '0.8rem', fontWeight: '600', color: 'var(--text-secondary)' }}>What would you like to sell?</label>
-                                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '0.8rem' }}>
+                                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(90px, 1fr))', gap: '0.8rem' }}>
                                         {RECYCLABLE_ITEMS.map(item => (
                                             <div 
                                                 key={item.id}
@@ -251,9 +251,9 @@ export default function SellRecyclables() {
 
                             <div className="info-card" style={{ padding: '1.5rem' }}>
                                 <h4 style={{ margin: '0 0 1rem 0' }}>Current Scrap Rates (approx)</h4>
-                                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.8rem' }}>
+                                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: '1rem' }}>
                                     {RECYCLABLE_ITEMS.slice(0, 5).map(item => (
-                                        <div key={item.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingBottom: '0.5rem', borderBottom: '1px solid var(--border-color)' }}>
+                                        <div key={item.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingBottom: '0.5rem', borderBottom: '1px solid var(--border-color)', flexWrap: 'wrap', gap: '0.4rem' }}>
                                             <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                                                 <span>{item.icon}</span>
                                                 <span style={{ fontWeight: '600', fontSize: '0.9rem' }}>{item.name}</span>

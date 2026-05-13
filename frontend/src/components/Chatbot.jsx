@@ -56,15 +56,18 @@ export default function Chatbot() {
             {/* Chat Window */}
             {isOpen && (
                 <div style={{
-                    width: '320px',
+                    width: 'calc(100vw - 40px)',
+                    maxWidth: '320px',
                     height: '480px',
+                    maxHeight: '70vh',
                     backgroundColor: 'var(--card-bg)',
                     backdropFilter: 'blur(20px)',
                     borderRadius: '16px',
                     boxShadow: '0 8px 32px rgba(0,0,0,0.25)',
                     display: 'flex',
                     flexDirection: 'column',
-                    marginBottom: '15px',
+                    marginBottom: '10px',
+                    marginRight: '10px',
                     overflow: 'hidden',
                     border: '1px solid var(--border-color)',
                     animation: 'slideUp 0.3s ease-out'
@@ -169,8 +172,8 @@ export default function Chatbot() {
             <button 
                 onClick={() => setIsOpen(!isOpen)}
                 style={{
-                    width: '70px',
-                    height: '70px',
+                    width: '60px',
+                    height: '60px',
                     borderRadius: '50%',
                     backgroundColor: 'transparent',
                     color: 'white',
@@ -180,7 +183,11 @@ export default function Chatbot() {
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    transition: 'all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275)'
+                    transition: 'all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275)',
+                    position: 'fixed',
+                    bottom: '100px',
+                    right: '15px',
+                    zIndex: 1000
                 }}
                 onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.1)'}
                 onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}

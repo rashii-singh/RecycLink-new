@@ -77,7 +77,7 @@ export default function CollectorDashboard() {
             </div>
 
             {/* Stats Grid */}
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1.5rem', marginBottom: '3rem' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: '1rem', marginBottom: '2rem' }}>
                 <div className="info-card" style={{ padding: '1.5rem', textAlign: 'center', borderBottom: '4px solid var(--accent-green)' }}>
                     <div style={{ fontSize: '0.85rem', fontWeight: '700', color: 'var(--text-secondary)', textTransform: 'uppercase', marginBottom: '0.5rem' }}>Total Collected</div>
                     <div style={{ fontSize: '1.8rem', fontWeight: '800', color: 'var(--accent-green)' }}>{stats.totalCollected} kg</div>
@@ -96,7 +96,7 @@ export default function CollectorDashboard() {
                 </div>
             </div>
 
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 350px', gap: '2rem' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '2rem' }}>
                 {/* Available Requests */}
                 <div>
                     <h2 style={{ marginBottom: '1.5rem', fontSize: '1.5rem' }}>Available Pickups</h2>
@@ -120,7 +120,7 @@ export default function CollectorDashboard() {
                                         </div>
                                     </div>
                                     
-                                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem', marginBottom: '1.5rem' }}>
+                                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: '1rem', marginBottom: '1.5rem' }}>
                                         <div>
                                             <div style={{ fontSize: '0.75rem', fontWeight: '700', color: 'var(--text-secondary)', textTransform: 'uppercase' }}>Location</div>
                                             <div style={{ fontWeight: '600', fontSize: '0.9rem' }}>Sector 12, Mohali, Punjab</div>
@@ -131,12 +131,12 @@ export default function CollectorDashboard() {
                                         </div>
                                     </div>
 
-                                    <div style={{ display: 'flex', gap: '1rem' }}>
+                                    <div style={{ display: 'flex', gap: '0.8rem', flexWrap: 'wrap' }}>
                                         {req.status === 'Pending' ? (
                                             <button 
                                                 className="btn-secondary" 
                                                 onClick={() => handleAcceptRequest(req.id)}
-                                                style={{ flex: 1, padding: '0.8rem' }}
+                                                style={{ flex: '1 1 140px', padding: '0.8rem' }}
                                             >
                                                 Accept Pickup
                                             </button>
@@ -144,12 +144,12 @@ export default function CollectorDashboard() {
                                             <button 
                                                 className="btn-secondary" 
                                                 onClick={() => handleCompleteRequest(req.id)}
-                                                style={{ flex: 1, padding: '0.8rem', background: 'var(--accent-blue)', color: 'white' }}
+                                                style={{ flex: '1 1 140px', padding: '0.8rem', background: 'var(--accent-blue)', color: 'white' }}
                                             >
                                                 Mark Completed
                                             </button>
                                         )}
-                                        <button className="btn-secondary" style={{ flex: 1, padding: '0.8rem', background: 'transparent', border: '1px solid var(--border-color)', color: 'var(--text-secondary)' }}>View Map</button>
+                                        <button className="btn-secondary" style={{ flex: '1 1 140px', padding: '0.8rem', background: 'transparent', border: '1px solid var(--border-color)', color: 'var(--text-secondary)' }}>View Map</button>
                                     </div>
                                 </div>
                             ))}

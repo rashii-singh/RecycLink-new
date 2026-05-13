@@ -110,7 +110,7 @@ export default function EcoRiderDashboard() {
                 </div>
             )}
             {/* Top Bar: Profile & Quick Stats */}
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem', marginBottom: '3rem', alignItems: 'start' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '2rem', marginBottom: '3rem', alignItems: 'start' }}>
                 {/* Rider Profile Section */}
                 <div className="info-card" style={{ padding: '2rem', display: 'flex', gap: '2rem', alignItems: 'center', background: 'var(--card-bg)' }}>
                     <div style={{ width: '100px', height: '100px', borderRadius: '50%', background: 'var(--accent-green-soft)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '3rem' }}>
@@ -131,7 +131,7 @@ export default function EcoRiderDashboard() {
                 </div>
 
                 {/* Earnings Section */}
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem' }}>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: '1rem' }}>
                     <div className="info-card" style={{ padding: '1.5rem', textAlign: 'center', background: 'var(--accent-green-soft)', border: 'none' }}>
                         <div style={{ fontSize: '0.8rem', fontWeight: '700', color: 'var(--accent-green)', textTransform: 'uppercase', marginBottom: '0.5rem' }}>Today's Earnings</div>
                         <div style={{ fontSize: '2rem', fontWeight: '800', color: 'var(--accent-green)' }}>{stats.todayEarnings}</div>
@@ -154,7 +154,7 @@ export default function EcoRiderDashboard() {
             <h2 style={{ marginBottom: '1.5rem', fontSize: '1.8rem' }}>Pickup Queue</h2>
             
             {/* Available Pickup Requests */}
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(380px, 1fr))', gap: '1.5rem' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1.5rem' }}>
                 {requests.length === 0 ? (
                     <div className="info-card" style={{ gridColumn: '1/-1', padding: '4rem', textAlign: 'center', color: 'var(--text-secondary)' }}>
                         <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>🍃</div>
@@ -191,7 +191,7 @@ export default function EcoRiderDashboard() {
                                 </div>
                             </div>
 
-                            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', padding: '1rem', background: 'var(--bg-color)', borderRadius: '12px' }}>
+                            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(120px, 1fr))', gap: '1rem', padding: '1rem', background: 'var(--bg-color)', borderRadius: '12px' }}>
                                 <div>
                                     <div style={{ fontSize: '0.7rem', fontWeight: '700', color: 'var(--text-secondary)', textTransform: 'uppercase' }}>Distance</div>
                                     <div style={{ fontWeight: '600' }}>2.4 km</div>
@@ -207,7 +207,7 @@ export default function EcoRiderDashboard() {
                             </div>
 
                             {/* Rider Actions */}
-                            <div style={{ display: 'flex', gap: '0.8rem', marginTop: 'auto' }}>
+                            <div style={{ display: 'flex', gap: '0.8rem', marginTop: 'auto', flexWrap: 'wrap' }}>
                                 {req.status === 'Pending' && (
                                     <>
                                         <button 

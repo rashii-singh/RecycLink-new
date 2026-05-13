@@ -151,14 +151,14 @@ export default function Navbar(props) {
                             <rect x="2.5" y="-7" width="2" height="13" rx="1" fill="white" />
                         </g>
                     </svg>
-                    <span style={{ fontWeight: '700', fontSize: '1.4rem', letterSpacing: '-0.02em', display: 'flex' }}>
+                    <span className="nav-logo-text" style={{ fontWeight: '700', fontSize: '1.4rem', letterSpacing: '-0.02em', display: 'flex' }}>
                         <span style={{ color: 'var(--accent-green)' }}>Recyc</span>
                         <span style={{ color: 'var(--accent-blue)' }}>Link</span>
                     </span>
                 </Link>
             </div>
 
-            <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+            <div className="nav-actions-gap" style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
                 {/* Location Indicator with Hover Tooltip */}
                 <div className="nav-tooltip-container">
                     <div

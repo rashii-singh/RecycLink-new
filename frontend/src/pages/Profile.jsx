@@ -164,7 +164,16 @@ export default function Profile() {
 
     return (
         <div className="page page-container fade-in">
-            <div style={{ textAlign: 'left', paddingLeft: '0.5rem', marginBottom: '1.5rem' }}>
+            <div style={{ 
+                display: 'flex', 
+                flexDirection: 'column', 
+                alignItems: 'center', 
+                textAlign: 'center', 
+                marginBottom: '0.8rem', 
+                paddingTop: '1.2rem', 
+                width: '100%',
+                justifyContent: 'center'
+            }}>
                 <h1 style={{ fontSize: '2rem', color: 'var(--heading-color)', fontWeight: '700', margin: '0 0 0.5rem 0', lineHeight: '1.2', paddingBottom: '0.2rem' }}>
                     Profile
                 </h1>

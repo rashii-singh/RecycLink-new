@@ -82,12 +82,12 @@ export default function ThresholdPage() {
     }, [])
 
     return (
-        <div className="page fade-in" style={{ maxWidth: '1000px', margin: '0 auto', padding: '2rem 1.5rem' }}>
-            <div style={{ marginBottom: '3rem', textAlign: 'left' }}>
-                <h1 style={{ fontSize: '2.5rem', color: 'var(--heading-color)', fontWeight: '800', margin: '0 0 0.5rem 0', letterSpacing: '-0.03em' }}>
+        <div className="page page-container fade-in" style={{ maxWidth: '1000px', margin: '0 auto' }}>
+            <div style={{ textAlign: 'left', paddingLeft: '0.5rem', marginBottom: '2.5rem' }}>
+                <h1 style={{ fontSize: '2rem', color: 'var(--heading-color)', fontWeight: '700', margin: '0 0 0.5rem 0', lineHeight: '1.2', paddingBottom: '0.2rem' }}>
                     Location-Based Pickup Insights
                 </h1>
-                <p style={{ fontSize: '1.1rem', color: 'var(--text-secondary)', margin: 0, fontWeight: '500' }}>
+                <p style={{ fontSize: '1rem', color: 'var(--text-secondary)', margin: 0, fontWeight: '500' }}>
                     Visualize pickup demand and identify high-demand zones in your area
                 </p>
             </div>

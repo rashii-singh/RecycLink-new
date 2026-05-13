@@ -66,13 +66,17 @@ export default function DisposalCenters() {
     };
 
     return (
-        <div className="page fade-in">
+        <div className="page page-container fade-in">
             <div style={{ maxWidth: '800px', width: '100%', display: 'flex', flexDirection: 'column', gap: '2rem' }}>
                 
                 {/* Header Section */}
-                <div style={{ textAlign: 'center' }}>
-                    <h1 style={{ fontSize: '2.8rem', marginBottom: '0.5rem', color: 'var(--heading-color)', fontWeight: '800', letterSpacing: '-0.04em' }}>Nearby Disposal Centers</h1>
-                    <p style={{ color: 'var(--text-secondary)', fontSize: '1.2rem', fontWeight: '500' }}>Find authorized recycling and waste collection hubs near you.</p>
+                <div style={{ textAlign: 'left', paddingLeft: '0.5rem', marginBottom: '1.5rem' }}>
+                    <h1 style={{ fontSize: '2rem', color: 'var(--heading-color)', fontWeight: '700', margin: '0 0 0.5rem 0', lineHeight: '1.2', paddingBottom: '0.2rem' }}>
+                        Nearby Disposal Centers
+                    </h1>
+                    <p style={{ color: 'var(--text-secondary)', fontSize: '1rem', margin: 0, fontWeight: '500' }}>
+                        Find authorized recycling and waste collection hubs near you.
+                    </p>
                 </div>
 
                 {/* Location Detection & Search */}

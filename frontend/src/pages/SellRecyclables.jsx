@@ -29,7 +29,20 @@ export default function SellRecyclables() {
     const [image, setImage] = useState(null);
     const [requests, setRequests] = useState(mockRequests);
     const [isSubmitting, setIsSubmitting] = useState(false);
-    const [activeTab, setActiveTab] = useState('sell'); // 'sell' or 'history'
+    const [activeTab, setActiveTab] = useState('sell');
+    const [cancellingReqId, setCancellingReqId] = useState(null);
+    const [cancelReason, setCancelReason] = useState('');
+    const [otherReason, setOtherReason] = useState('');
+    const [showSuccess, setShowSuccess] = useState(false);
+
+    const CANCEL_REASONS = [
+        'Pickup delayed',
+        'Wrong request placed',
+        'Not available at pickup time',
+        'Price issue',
+        'Pickup no longer needed',
+        'Other'
+    ];
 
     const handleFileChange = (e) => {
         if (e.target.files && e.target.files[0]) {
@@ -63,14 +76,27 @@ export default function SellRecyclables() {
         }, 1500);
     };
 
+    const handleCancelConfirm = () => {
+        setRequests(prev => prev.filter(r => r.id !== cancellingReqId));
+        setCancellingReqId(null);
+        setCancelReason('');
+        setOtherReason('');
+        setShowSuccess(true);
+        setTimeout(() => setShowSuccess(false), 3000);
+    };
+
     return (
-        <div className="page fade-in">
-            <div style={{ maxWidth: '900px', width: '100%', display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+        <div className="page page-container fade-in" style={{ maxWidth: '900px' }}>
+            <div style={{ width: '100%', display: 'flex', flexDirection: 'column', gap: '2rem' }}>
                 
                 {/* Header Section */}
-                <div style={{ textAlign: 'center' }}>
-                    <h1 style={{ fontSize: '2.8rem', marginBottom: '0.5rem', color: 'var(--heading-color)', fontWeight: '800', letterSpacing: '-0.04em' }}>Earn from Recyclables</h1>
-                    <p style={{ color: 'var(--text-secondary)', fontSize: '1.2rem', fontWeight: '500' }}>Turn your household scrap into money and help the planet.</p>
+                <div style={{ textAlign: 'left', paddingLeft: '0.5rem', marginBottom: '1.5rem' }}>
+                    <h1 style={{ fontSize: '2rem', color: 'var(--heading-color)', fontWeight: '700', margin: '0 0 0.5rem 0', lineHeight: '1.2', paddingBottom: '0.2rem' }}>
+                        Earn from Recyclables
+                    </h1>
+                    <p style={{ color: 'var(--text-secondary)', fontSize: '1rem', margin: 0, fontWeight: '500' }}>
+                        Turn your household scrap into money and help the planet.
+                    </p>
                 </div>
 
                 {/* Tabs */}
@@ -115,8 +141,8 @@ export default function SellRecyclables() {
                     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(350px, 1fr))', gap: '2rem' }}>
                         
                         {/* Sell Form */}
-                        <div className="info-card" style={{ padding: '2rem' }}>
-                            <h3 style={{ fontSize: '1.4rem', marginBottom: '1.5rem', color: 'var(--text-primary)' }}>Book Scrap Pickup</h3>
+                        <div className="info-card" style={{ padding: '1.5rem' }}>
+                            <h3 style={{ fontSize: '1.25rem', marginBottom: '1.25rem', color: 'var(--text-primary)' }}>Book Scrap Pickup</h3>
                             
                             <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
                                 {/* Item Type */}
@@ -138,8 +164,8 @@ export default function SellRecyclables() {
                                                 }}
                                             >
                                                 <div style={{ fontSize: '1.8rem', marginBottom: '0.3rem' }}>{item.icon}</div>
-                                                <div style={{ fontSize: '0.75rem', fontWeight: '700', color: 'var(--text-primary)' }}>{item.name}</div>
-                                                <div style={{ fontSize: '0.65rem', color: 'var(--accent-green)', fontWeight: '600' }}>{item.priceRange}</div>
+                                                <div style={{ fontSize: '0.8rem', fontWeight: '600', color: 'var(--text-primary)' }}>{item.name}</div>
+                                                <div style={{ fontSize: '0.7rem', color: 'var(--accent-green)', fontWeight: '600' }}>{item.priceRange}</div>
                                             </div>
                                         ))}
                                     </div>
@@ -212,8 +238,8 @@ export default function SellRecyclables() {
                         {/* Price List & Info */}
                         <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
                             <div className="info-card" style={{ padding: '1.5rem', background: 'var(--card-bg)', border: '1px solid var(--accent-green)' }}>
-                                <h4 style={{ color: 'var(--accent-green)', margin: '0 0 1rem 0', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                                    <span style={{ fontSize: '1.2rem' }}>💰</span> Why sell to RecycLink?
+                                <h4 style={{ color: 'var(--accent-green)', margin: '0 0 0.8rem 0', display: 'flex', alignItems: 'center', gap: '0.5rem', fontWeight: '600' }}>
+                                    <span style={{ fontSize: '1.1rem' }}>💰</span> Why sell to RecycLink?
                                 </h4>
                                 <ul style={{ paddingLeft: '1.2rem', color: 'var(--text-primary)', fontSize: '0.9rem', display: 'flex', flexDirection: 'column', gap: '0.6rem', margin: 0 }}>
                                     <li>Get the best market rates for your scrap.</li>
@@ -280,11 +306,77 @@ export default function SellRecyclables() {
                                         <div style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>Code: <span style={{ color: 'var(--text-primary)', fontWeight: '800' }}>4298</span></div>
                                     </div>
                                     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end' }}>
-                                        <button className="btn-secondary" style={{ background: 'var(--sidebar-bg)', color: '#ef4444', border: '1px solid var(--border-color)', padding: '0.6rem 1.2rem', fontSize: '0.85rem' }}>Cancel Request</button>
+                                        <button 
+                                            className="btn-secondary" 
+                                            onClick={() => setCancellingReqId(req.id)}
+                                            style={{ background: 'var(--sidebar-bg)', color: '#ef4444', border: '1px solid var(--border-color)', padding: '0.6rem 1.2rem', fontSize: '0.85rem' }}
+                                        >
+                                            Cancel Request
+                                        </button>
                                     </div>
                                 </div>
                             </div>
                         ))}
+                    </div>
+                )}
+
+                {/* Success Message */}
+                {showSuccess && (
+                    <div style={{ position: 'fixed', bottom: '2rem', left: '50%', transform: 'translateX(-50%)', background: '#22c55e', color: 'white', padding: '1rem 2rem', borderRadius: '12px', boxShadow: '0 4px 12px rgba(0,0,0,0.1)', zIndex: 1000, fontWeight: '700' }} className="fade-in">
+                        Request Cancelled Successfully ✅
+                    </div>
+                )}
+
+                {/* Cancellation Modal */}
+                {cancellingReqId && (
+                    <div style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', background: 'rgba(0,0,0,0.4)', backdropFilter: 'blur(4px)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 2000 }}>
+                        <div className="info-card" style={{ maxWidth: '450px', width: '90%', padding: '2rem', background: 'var(--card-bg)' }}>
+                            <h2 style={{ marginBottom: '0.5rem' }}>Cancel Pickup?</h2>
+                            <p style={{ color: 'var(--text-secondary)', marginBottom: '1.5rem', fontSize: '0.95rem' }}>Please select a reason for cancelling your request.</p>
+                            
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.8rem', marginBottom: '1.5rem' }}>
+                                {CANCEL_REASONS.map(reason => (
+                                    <label key={reason} style={{ display: 'flex', alignItems: 'center', gap: '0.8rem', padding: '0.8rem', borderRadius: '10px', border: '1px solid var(--border-color)', cursor: 'pointer', background: cancelReason === reason ? 'var(--sidebar-bg)' : 'transparent', transition: 'all 0.2s' }}>
+                                        <input 
+                                            type="radio" 
+                                            name="cancelReason" 
+                                            value={reason} 
+                                            checked={cancelReason === reason} 
+                                            onChange={(e) => setCancelReason(e.target.value)}
+                                            style={{ width: '18px', height: '18px', accentColor: 'var(--accent-green)' }}
+                                        />
+                                        <span style={{ fontWeight: '600', color: cancelReason === reason ? 'var(--text-primary)' : 'var(--text-secondary)' }}>{reason}</span>
+                                    </label>
+                                ))}
+                                
+                                {cancelReason === 'Other' && (
+                                    <textarea 
+                                        placeholder="Please tell us more..." 
+                                        value={otherReason}
+                                        onChange={(e) => setOtherReason(e.target.value)}
+                                        style={{ width: '100%', padding: '1rem', borderRadius: '10px', border: '1px solid var(--accent-green)', background: 'var(--sidebar-bg)', color: 'var(--text-primary)', marginTop: '0.5rem', minHeight: '80px', fontFamily: 'inherit' }}
+                                    />
+                                )}
+                            </div>
+
+                            <div style={{ display: 'flex', gap: '1rem' }}>
+                                <button 
+                                    className="btn-secondary" 
+                                    onClick={() => { setCancellingReqId(null); setCancelReason(''); setOtherReason(''); }}
+                                    style={{ flex: 1, background: 'var(--sidebar-bg)', color: 'var(--text-secondary)', border: '1px solid var(--border-color)' }}
+                                >
+                                    Back
+                                </button>
+                                <button 
+                                    className="btn-secondary" 
+                                    disabled={!cancelReason || (cancelReason === 'Other' && !otherReason)}
+                                    onClick={handleCancelConfirm}
+                                    style={{ flex: 1, background: '#ef4444', border: 'none' }}
+                                >
+                                    Confirm Cancel
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 )}
 

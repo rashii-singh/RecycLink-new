@@ -92,10 +92,12 @@ export default function RequestPickup() {
     };
 
     return (
-        <div className="page fade-in" style={{ maxWidth: '600px', margin: '0 auto', padding: '1.5rem' }}>
-            <div style={{ marginBottom: '2rem', textAlign: 'left' }}>
-                <h1 style={{ fontSize: '2.5rem', color: 'var(--heading-color)', fontWeight: '800', margin: '0 0 0.5rem 0', letterSpacing: '-0.03em' }}>Schedule a Pickup</h1>
-                <p style={{ color: 'var(--text-secondary)', fontSize: '1.1rem', margin: 0, fontWeight: '500' }}>
+        <div className="page page-container fade-in" style={{ maxWidth: '600px' }}>
+            <div style={{ textAlign: 'left', paddingLeft: '0.5rem', marginBottom: '2.5rem' }}>
+                <h1 style={{ fontSize: '2rem', color: 'var(--heading-color)', fontWeight: '700', margin: '0 0 0.5rem 0', lineHeight: '1.2', paddingBottom: '0.2rem' }}>
+                    Schedule a Pickup
+                </h1>
+                <p style={{ color: 'var(--text-secondary)', fontSize: '1rem', margin: 0, fontWeight: '500' }}>
                     Select your waste types and pick a convenient time
                 </p>
             </div>
@@ -103,8 +105,8 @@ export default function RequestPickup() {
             <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
                 
                 {/* Search Collectors/Buyers */}
-                <div className="info-card" style={{ background: 'var(--card-bg)', borderRadius: '24px', padding: '1.5rem', border: '1px solid var(--border-color)' }}>
-                    <h3 style={{ margin: '0 0 1.2rem 0', fontSize: '1.2rem', color: 'var(--text-primary)', fontWeight: '700' }}>Find Nearby Collectors & Buyers</h3>
+                <div className="info-card" style={{ background: 'var(--card-bg)', borderRadius: '20px', padding: '1.25rem', border: '1px solid var(--border-color)' }}>
+                    <h3 style={{ margin: '0 0 1rem 0' }}>Find Nearby Collectors & Buyers</h3>
                     <div style={{ position: 'relative' }}>
                         <input 
                             type="text" 
@@ -140,8 +142,8 @@ export default function RequestPickup() {
 
 
                 {/* Waste Type Selection */}
-                <div className="info-card" style={{ background: 'var(--card-bg)', borderRadius: '24px', padding: '1.5rem', border: '1px solid var(--border-color)' }}>
-                    <h3 style={{ margin: '0 0 1.2rem 0', fontSize: '1.2rem', color: 'var(--text-primary)', fontWeight: '700' }}>Select Waste Types</h3>
+                <div className="info-card" style={{ background: 'var(--card-bg)', borderRadius: '20px', padding: '1.25rem', border: '1px solid var(--border-color)' }}>
+                    <h3 style={{ margin: '0 0 1rem 0' }}>Select Waste Types</h3>
                     <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.8rem' }}>
                         {WASTE_TYPES.map(type => (
                             <div
@@ -166,8 +168,8 @@ export default function RequestPickup() {
                 </div>
 
                 {/* Date & Time Slot */}
-                <div className="info-card" style={{ background: 'var(--card-bg)', borderRadius: '24px', padding: '1.5rem', border: '1px solid var(--border-color)' }}>
-                    <h3 style={{ margin: '0 0 1.2rem 0', fontSize: '1.2rem', color: 'var(--text-primary)', fontWeight: '700' }}>Date & Time</h3>
+                <div className="info-card" style={{ background: 'var(--card-bg)', borderRadius: '20px', padding: '1.25rem', border: '1px solid var(--border-color)' }}>
+                    <h3 style={{ margin: '0 0 1rem 0' }}>Date & Time</h3>
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
                         <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
                             <label style={{ fontSize: '0.85rem', fontWeight: '700', color: 'var(--text-secondary)', textTransform: 'uppercase' }}>Preferred Date</label>
@@ -211,15 +213,15 @@ export default function RequestPickup() {
                         flexDirection: 'column',
                         alignItems: 'center',
                         gap: '1rem',
-                        border: '2px solid var(--accent-green)',
+                        border: '2px solid var(--accent-blue)',
                         width: '90%',
                         maxWidth: '400px'
                     }}>
                         <div style={{ fontSize: '4rem' }}>🎉</div>
-                        <h2 style={{ fontSize: '2rem', color: 'var(--accent-green)', margin: 0 }}>Order Successful!</h2>
+                        <h2 style={{ fontSize: '2rem', color: 'var(--accent-green)', margin: 0, background: 'none', webkitTextFillColor: 'initial' }}>Order Successful!</h2>
                         <p style={{ color: 'var(--text-secondary)', fontWeight: '500' }}>Your waste pickup has been scheduled. You will be redirected to the dashboard shortly.</p>
-                        <div style={{ width: '100%', height: '4px', background: '#f0fdf4', borderRadius: '2px', overflow: 'hidden', marginTop: '1rem' }}>
-                            <div className="progress-bar-fill" style={{ width: '100%', height: '100%', background: '#22c55e', animation: 'progress 2s linear' }}></div>
+                        <div style={{ width: '100%', height: '4px', background: 'var(--accent-blue-soft)', borderRadius: '2px', overflow: 'hidden', marginTop: '1rem' }}>
+                            <div className="progress-bar-fill" style={{ width: '100%', height: '100%', background: 'linear-gradient(90deg, var(--accent-blue), var(--accent-green))', animation: 'progress 2s linear' }}></div>
                         </div>
                     </div>
                 )}
@@ -234,8 +236,8 @@ export default function RequestPickup() {
                         borderRadius: '16px', 
                         fontSize: '1.1rem', 
                         fontWeight: '700', 
-                        boxShadow: '0 10px 20px rgba(34, 197, 94, 0.2)',
-                        background: 'var(--accent-green)',
+                        boxShadow: '0 10px 20px rgba(37, 99, 235, 0.2)',
+                        background: 'linear-gradient(135deg, var(--accent-blue) 0%, var(--accent-green) 100%)',
                         color: '#ffffff',
                         border: 'none',
                         cursor: 'pointer'

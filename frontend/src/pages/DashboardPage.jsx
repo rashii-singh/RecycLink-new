@@ -74,11 +74,11 @@ export default function DashboardPage() {
     return (
         <div className="dashboard-container fade-in">
             {/* Header Section */}
-            <div style={{ marginBottom: '3rem', textAlign: 'left' }}>
-                <h1 style={{ fontSize: '2.5rem', color: 'var(--heading-color)', fontWeight: '800', margin: '0 0 0.5rem 0', letterSpacing: '-0.03em' }}>
+            <div style={{ textAlign: 'left', paddingLeft: '0.5rem', marginBottom: '2.5rem' }}>
+                <h1 style={{ fontSize: '2rem', color: 'var(--heading-color)', fontWeight: '700', margin: '0 0 0.5rem 0', lineHeight: '1.2', paddingBottom: '0.2rem' }}>
                     Smart Waste Collection Dashboard
                 </h1>
-                <p style={{ fontSize: '1.1rem', color: 'var(--text-secondary)', margin: 0, fontWeight: '500' }}>
+                <p style={{ fontSize: '1rem', color: 'var(--text-secondary)', margin: 0, fontWeight: '500' }}>
                     Track, manage, and optimize your waste pickup requests in real-time
                 </p>
             </div>
@@ -89,21 +89,21 @@ export default function DashboardPage() {
                 onClick={() => navigate('/request-pickup')}
                 style={{
                     background: 'var(--card-bg)',
-                    borderRadius: '24px',
-                    padding: '2rem 3rem',
-                    boxShadow: '0 10px 30px rgba(0,0,0,0.06)',
-                    marginBottom: '3.5rem',
+                    borderRadius: '20px',
+                    padding: '1.5rem 2.5rem',
+                    boxShadow: 'var(--shadow-sm)',
+                    marginBottom: '3rem',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'space-between',
                     flexWrap: 'wrap',
                     gap: '2rem',
                     cursor: 'pointer',
-                    transition: 'transform 0.2s ease, box-shadow 0.2s ease',
+                    transition: 'all 0.2s ease',
                     border: '1px solid var(--border-color)'
                 }}
-                onMouseEnter={(e) => { e.currentTarget.style.transform = 'translateY(-4px)'; e.currentTarget.style.boxShadow = '0 15px 40px rgba(0,0,0,0.1)' }}
-                onMouseLeave={(e) => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 10px 30px rgba(0,0,0,0.06)' }}
+                onMouseEnter={(e) => { e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = 'var(--shadow-md)'; e.currentTarget.style.borderColor = 'var(--accent-green)' }}
+                onMouseLeave={(e) => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = 'var(--shadow-sm)'; e.currentTarget.style.borderColor = 'var(--border-color)' }}
             >
                 <div style={{ display: 'flex', alignItems: 'center', gap: '2rem', flex: '1 1 300px' }}>
                     <div style={{ width: '85px', height: '85px', borderRadius: '50%', background: 'var(--card-bg)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, border: '1px solid var(--border-color)' }}>
@@ -116,10 +116,10 @@ export default function DashboardPage() {
                         </svg>
                     </div>
                     <div style={{ textAlign: 'left' }}>
-                        <h2 style={{ fontSize: '2.4rem', color: 'var(--heading-color)', margin: '0 0 0.5rem 0', fontWeight: '800', letterSpacing: '-0.5px' }}>
+                        <h2 style={{ fontSize: '1.75rem', color: 'var(--heading-color)', margin: '0 0 0.25rem 0', fontWeight: '700' }}>
                             Request Pickup
                         </h2>
-                        <p style={{ fontSize: '1.2rem', color: 'var(--text-secondary)', margin: 0, fontWeight: '500' }}>
+                        <p style={{ fontSize: '1rem', color: 'var(--text-secondary)', margin: 0 }}>
                             Schedule a pickup for your waste easily.
                         </p>
                     </div>
@@ -398,8 +398,14 @@ export default function DashboardPage() {
                                         <span style={{
                                             fontSize: '0.75rem',
                                             fontWeight: '800',
-                                            color: req.status === 'Pending' ? '#b45309' : req.status === 'Cancelled' ? '#991b1b' : '#065f46',
-                                            background: req.status === 'Pending' ? '#fef3c7' : req.status === 'Cancelled' ? '#fee2e2' : '#dcfce7',
+                                            color: req.status === 'Pending' ? '#b45309' : 
+                                                   req.status === 'Cancelled' ? '#991b1b' : 
+                                                   req.status === 'Accepted' || req.status === 'Picked Up' || req.status === 'In Transit' ? '#1e40af' :
+                                                   '#065f46',
+                                            background: req.status === 'Pending' ? '#fef3c7' : 
+                                                        req.status === 'Cancelled' ? '#fee2e2' : 
+                                                        req.status === 'Accepted' || req.status === 'Picked Up' || req.status === 'In Transit' ? '#dbeafe' :
+                                                        '#dcfce7',
                                             padding: '6px 14px',
                                             borderRadius: '20px',
                                             textTransform: 'uppercase',
@@ -417,6 +423,22 @@ export default function DashboardPage() {
                                         )}
                                     </div>
                                 </div>
+
+                                {req.riderId && req.status !== 'Delivered' && req.status !== 'Completed' && (
+                                    <div style={{ marginTop: '1.2rem', padding: '1rem', background: 'var(--accent-green-soft)', borderRadius: '16px', display: 'flex', alignItems: 'center', gap: '1rem', border: '1px solid var(--accent-green)22' }}>
+                                        <div style={{ width: '45px', height: '45px', borderRadius: '50%', background: 'white', border: '1px solid var(--border-color)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.5rem' }}>🛵</div>
+                                        <div style={{ flex: 1, textAlign: 'left' }}>
+                                            <div style={{ fontSize: '0.95rem', fontWeight: '800' }}>{req.riderName || 'Eco Rider Assigned'}</div>
+                                            <div style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>{req.vehicleType || 'EV Scooter'} • Arriving in ~{req.estimatedArrival || '15 mins'}</div>
+                                        </div>
+                                        <button 
+                                            style={{ background: 'var(--accent-blue)', color: 'white', border: 'none', padding: '0.6rem 1rem', borderRadius: '12px', fontSize: '0.85rem', fontWeight: '700', cursor: 'pointer' }}
+                                            onClick={() => window.location.href = 'tel:+919876543210'}
+                                        >
+                                            Call Rider
+                                        </button>
+                                    </div>
+                                )}
 
                                 {/* Cancellation Dialog */}
                                 {cancellingId === req.id && (

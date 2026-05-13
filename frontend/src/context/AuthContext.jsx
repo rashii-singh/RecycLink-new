@@ -20,8 +20,10 @@ export function AuthProvider({ children }) {
     }, []);
 
     const login = (userData) => {
-        setCurrentUser(userData);
-        localStorage.setItem('demo_user', JSON.stringify(userData));
+        // Ensure userData contains role, default to 'user'
+        const updatedUser = { ...userData, role: userData.role || 'user' };
+        setCurrentUser(updatedUser);
+        localStorage.setItem('demo_user', JSON.stringify(updatedUser));
     };
 
     const logout = () => {

@@ -12,6 +12,7 @@ export default function Login() {
     const [showOtp, setShowOtp] = useState(false);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
+    const [role, setRole] = useState('user'); // 'user' or 'collector'
     const navigate = useNavigate();
     const { login } = useAuth();
 
@@ -27,9 +28,11 @@ export default function Login() {
                     uid: 'mock-user-123',
                     email: loginMethod === 'email' ? email : `${phone}@phone.com`,
                     displayName: loginMethod === 'email' ? email.split('@')[0] : 'Phone User',
-                    phoneNumber: loginMethod === 'phone' ? phone : ''
+                    phoneNumber: loginMethod === 'phone' ? phone : '',
+                    role: role
                 });
-                navigate('/');
+                const target = role === 'collector' ? '/collector-dashboard' : role === 'eco-rider' ? '/eco-rider-dashboard' : '/';
+                navigate(target);
             }, 800);
         } catch (err) {
             console.error('Auth error:', err);
@@ -59,9 +62,11 @@ export default function Login() {
                 login({
                     uid: 'mock-google-123',
                     email: 'demo@google.com',
-                    displayName: 'Demo User'
+                    displayName: 'Demo User',
+                    role: role
                 });
-                navigate('/');
+                const target = role === 'collector' ? '/collector-dashboard' : role === 'eco-rider' ? '/eco-rider-dashboard' : '/';
+                navigate(target);
             }, 800);
         } catch (err) {
             console.error('Google Auth error:', err);
@@ -80,16 +85,16 @@ export default function Login() {
                     
                     {/* Text Section */}
                     <div style={{ maxWidth: '650px', margin: '0 auto', width: '100%', zIndex: 2 }}>
-                        <h1 style={{ fontSize: '2.8rem', color: 'var(--heading-color)', fontWeight: '800', lineHeight: 1, marginBottom: '0.4rem', letterSpacing: '-0.04em' }}>
+                        <h1 className="hero-title" style={{ fontSize: '2rem', fontWeight: '600', lineHeight: 1.25, marginBottom: '0.5rem', letterSpacing: '-0.01em' }}>
                             Platform for <br/> Waste Segregation <br/> and Waste Management
                         </h1>
-                        <h2 style={{ fontSize: '1.6rem', color: 'var(--accent-green)', fontWeight: '700', marginBottom: '0.8rem' }}>
+                        <h2 style={{ fontSize: '1.2rem', color: 'var(--text-secondary)', fontWeight: '500', marginBottom: '0.8rem', background: 'none', webkitTextFillColor: 'initial' }}>
                             Awareness and Action
                         </h2>
-                        <div style={{ width: '60px', height: '4px', background: '#22c55e', marginBottom: '1rem' }}></div>
+                        <div style={{ width: '60px', height: '4px', background: 'var(--accent-green)', marginBottom: '1rem' }}></div>
                         <div style={{ display: 'flex', alignItems: 'center', gap: '1.2rem', marginBottom: '1.2rem' }}>
                             <div style={{ width: '45px', height: '45px', borderRadius: '50%', background: 'var(--card-bg)', border: '1px solid var(--border-color)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--accent-green)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--accent-green)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                                     <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1.5 2 2 4.5 2 9 0 5-4.5 9-10 9z"></path>
                                 </svg>
                             </div>
@@ -140,7 +145,7 @@ export default function Login() {
                                 {/* Bins */}
                                 <g transform="translate(68, 76)">
                                     <g transform="translate(0, 0)">
-                                        <path d="M 5 20 L 45 20 L 40 90 L 10 90 Z" fill="#16a34a" />
+                                        <path d="M 5 20 L 45 20 L 40 90 L 10 90 Z" fill="#22c55e" />
                                         <path d="M 0 20 L 5 12 L -25 -5 L -30 3 Z" fill="#15803d" />
                                         <circle cx="25" cy="47.5" r="14" fill="white" />
                                         <g transform="translate(16, 38.5) scale(0.18)">
@@ -157,8 +162,8 @@ export default function Login() {
                                                 <rect x="2.5" y="-7" width="2" height="13" rx="1" fill="white" />
                                             </g>
                                         </g>
-                                        <text x="25" y="72" fontSize="6.5" fill="white" textAnchor="middle" fontWeight="bold">Wet</text>
-                                        <text x="25" y="82" fontSize="6.5" fill="white" textAnchor="middle" fontWeight="bold">Waste</text>
+                                        <text x="25" y="70" fontSize="8" fill="white" textAnchor="middle" fontWeight="900">WET</text>
+                                        <text x="25" y="82" fontSize="7" fill="white" textAnchor="middle" fontWeight="bold">WASTE</text>
                                     </g>
 
                                     {[
@@ -184,8 +189,8 @@ export default function Login() {
                                                     <rect x="2.5" y="-7" width="2" height="13" rx="1" fill="white" />
                                                 </g>
                                             </g>
-                                            <text x="25" y="72" fontSize={bin.text.length > 8 ? "5" : "6.5"} fill="white" textAnchor="middle" fontWeight="bold">{bin.text}</text>
-                                            <text x="25" y="82" fontSize="6.5" fill="white" textAnchor="middle" fontWeight="bold">Waste</text>
+                                            <text x="25" y="70" fontSize={bin.text.length > 8 ? "6.5" : "8"} fill="white" textAnchor="middle" fontWeight="900">{bin.text.toUpperCase()}</text>
+                                            <text x="25" y="82" fontSize="7" fill="white" textAnchor="middle" fontWeight="bold">WASTE</text>
                                         </g>
                                     ))}
                                 </g>
@@ -293,6 +298,58 @@ export default function Login() {
                         <p style={{ color: 'var(--text-secondary)', marginBottom: '1.2rem', fontSize: '0.95rem' }}>
                             {isSignUp ? 'Join the green movement today' : 'Log in to manage your eco impact'}
                         </p>
+
+                        {/* Role Selector */}
+                        <div style={{ display: 'flex', background: 'var(--border-color)', padding: '0.3rem', borderRadius: '10px', marginBottom: '1.5rem' }}>
+                            <button 
+                                onClick={() => setRole('user')}
+                                style={{ 
+                                    flex: 1, 
+                                    padding: '0.6rem', 
+                                    borderRadius: '8px', 
+                                    border: 'none', 
+                                    background: role === 'user' ? 'var(--bg-color)' : 'transparent',
+                                    color: role === 'user' ? 'var(--accent-green)' : 'var(--text-secondary)',
+                                    fontWeight: '700',
+                                    cursor: 'pointer',
+                                    transition: 'all 0.2s'
+                                }}
+                            >
+                                User
+                            </button>
+                            <button 
+                                onClick={() => setRole('collector')}
+                                style={{ 
+                                    flex: 1, 
+                                    padding: '0.6rem', 
+                                    borderRadius: '8px', 
+                                    border: 'none', 
+                                    background: role === 'collector' ? 'var(--bg-color)' : 'transparent',
+                                    color: role === 'collector' ? 'var(--accent-green)' : 'var(--text-secondary)',
+                                    fontWeight: '700',
+                                    cursor: 'pointer',
+                                    transition: 'all 0.2s'
+                                }}
+                            >
+                                Collector
+                            </button>
+                            <button 
+                                onClick={() => setRole('eco-rider')}
+                                style={{ 
+                                    flex: 1, 
+                                    padding: '0.6rem', 
+                                    borderRadius: '8px', 
+                                    border: 'none', 
+                                    background: role === 'eco-rider' ? 'var(--bg-color)' : 'transparent',
+                                    color: role === 'eco-rider' ? 'var(--accent-green)' : 'var(--text-secondary)',
+                                    fontWeight: '700',
+                                    cursor: 'pointer',
+                                    transition: 'all 0.2s'
+                                }}
+                            >
+                                Eco Rider
+                            </button>
+                        </div>
 
                         {error && (
                             <div className="civic-message" style={{ background: '#fef2f2', color: '#dc2626', borderColor: '#fca5a5', marginBottom: '1.5rem', padding: '0.8rem', fontSize: '0.9rem' }}>

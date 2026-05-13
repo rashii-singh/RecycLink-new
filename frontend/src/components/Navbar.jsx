@@ -11,6 +11,7 @@ export default function Navbar(props) {
     const navigate = useNavigate()
     const location = useLocation()
     const [dropdownOpen, setDropdownOpen] = useState(false)
+    const [locDropdownOpen, setLocDropdownOpen] = useState(false)
     const navRef = useRef(null)
 
     const getLangChar = (lang) => {
@@ -65,10 +66,11 @@ export default function Navbar(props) {
             display: 'flex',
             justifyContent: 'space-between',
             alignItems: 'center',
-            padding: '0.8rem 1.5rem',
+            padding: '0.6rem 1.5rem',
             background: 'var(--navbar-bg)',
-            backdropFilter: 'blur(12px)',
-            boxShadow: '0 2px 10px rgba(0,0,0,0.05)'
+            backdropFilter: 'blur(16px)',
+            boxShadow: 'var(--shadow-sm)',
+            borderBottom: '1px solid var(--border-color)'
         }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
                 {/* Hamburger Menu - Mobile Only */}
@@ -101,53 +103,55 @@ export default function Navbar(props) {
                     textDecoration: 'none', 
                     display: 'flex', 
                     alignItems: 'center', 
-                    gap: '0.6rem',
+                    gap: '0.75rem',
                     marginLeft: '0',
-                    transition: 'margin-left 0.3s ease'
+                    transition: 'all 0.3s ease'
                 }}>
                     <svg 
-                        width="60" 
-                        height="60" 
+                        width="45" 
+                        height="45" 
                         viewBox="0 0 100 100" 
                         fill="none" 
                         xmlns="http://www.w3.org/2000/svg"
-                        style={{ flexShrink: 0, padding: '2px' }}
+                        style={{ flexShrink: 0 }}
                     >
                         {/* Top Green Arrow */}
                         <path 
                             d="M 20 39 A 32 32 0 0 1 80 39" 
-                            stroke="#22C55E" 
+                            stroke="var(--accent-green)" 
                             strokeWidth="12" 
                             fill="none" 
+                            strokeLinecap="round"
                         />
                         <path 
                             d="M 90.3 35.3 L 69.7 42.7 L 86.1 55.9 Z" 
-                            fill="#22C55E" 
+                            fill="var(--accent-green)" 
                         />
 
                         {/* Bottom Blue Arrow */}
                         <path 
                             d="M 80 61 A 32 32 0 0 1 20 61" 
-                            stroke="#1D4ED8" 
+                            stroke="var(--accent-blue)" 
                             strokeWidth="12" 
                             fill="none" 
+                            strokeLinecap="round"
                         />
                         <path 
                             d="M 9.7 64.7 L 30.3 57.3 L 13.9 44.1 Z" 
-                            fill="#1D4ED8" 
+                            fill="var(--accent-blue)" 
                         />
 
                         {/* Center Dustbin */}
-                        <g transform="translate(50, 50) scale(0.9)">
-                            <rect x="-6" y="-18" width="12" height="4" rx="2" fill="#22C55E" />
-                            <rect x="-12" y="-14" width="24" height="4" rx="1" fill="#22C55E" />
-                            <path d="M -10 -10 L 10 -10 L 8 12 L -8 12 Z" fill="#22C55E" />
+                        <g transform="translate(50, 50) scale(0.85)">
+                            <rect x="-6" y="-18" width="12" height="4" rx="2" fill="var(--accent-green)" />
+                            <rect x="-12" y="-14" width="24" height="4" rx="1" fill="var(--accent-green)" />
+                            <path d="M -10 -10 L 10 -10 L 8 12 L -8 12 Z" fill="var(--accent-green)" />
                             <rect x="-4.5" y="-7" width="2" height="13" rx="1" fill="white" />
                             <rect x="-1" y="-7" width="2" height="13" rx="1" fill="white" />
                             <rect x="2.5" y="-7" width="2" height="13" rx="1" fill="white" />
                         </g>
                     </svg>
-                    <span style={{ fontWeight: '800', fontSize: '1.6rem', letterSpacing: '-0.5px', display: 'flex' }}>
+                    <span style={{ fontWeight: '700', fontSize: '1.4rem', letterSpacing: '-0.02em', display: 'flex' }}>
                         <span style={{ color: 'var(--accent-green)' }}>Recyc</span>
                         <span style={{ color: 'var(--accent-blue)' }}>Link</span>
                     </span>
@@ -172,12 +176,18 @@ export default function Navbar(props) {
                             cursor: 'pointer',
                             transition: 'all 0.2s'
                         }}
-                        onMouseEnter={(e) => e.currentTarget.style.borderColor = '#22c55e'}
+                        onMouseEnter={(e) => e.currentTarget.style.borderColor = 'var(--accent-green)'}
                         onMouseLeave={(e) => e.currentTarget.style.borderColor = 'var(--card-border)'}
                     >
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#16a34a" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
-                            <circle cx="12" cy="10" r="3"></circle>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                            <defs>
+                                <linearGradient id="locGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" stopColor="var(--accent-blue)" />
+                                    <stop offset="100%" stopColor="var(--accent-green)" />
+                                </linearGradient>
+                            </defs>
+                            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" stroke="url(#locGradient)"></path>
+                            <circle cx="12" cy="10" r="3" stroke="var(--accent-green)"></circle>
                         </svg>
                     </div>
                     
@@ -213,7 +223,7 @@ export default function Navbar(props) {
                                 left: '0px',
                                 width: '32px',
                                 height: '36px',
-                                backgroundColor: '#22c55e',
+                                backgroundColor: 'var(--accent-green)',
                                 borderRadius: '6px',
                                 display: 'flex',
                                 alignItems: 'center',
@@ -233,13 +243,13 @@ export default function Navbar(props) {
                                 right: '2px',
                                 width: '30px',
                                 height: '34px',
-                                backgroundColor: 'white',
-                                border: '1.5px solid #22c55e',
+                                backgroundColor: 'var(--accent-green-soft)',
+                                border: '1.5px solid var(--accent-green)',
                                 borderRadius: '6px',
                                 display: 'flex',
                                 alignItems: 'center',
                                 justifyContent: 'center',
-                                color: '#16a34a',
+                                color: 'var(--accent-green)',
                                 fontWeight: 'bold',
                                 fontSize: '1.1rem',
                                 zIndex: 1,
@@ -270,7 +280,7 @@ export default function Navbar(props) {
                                 width: '42px', 
                                 height: '42px', 
                                 borderRadius: '50%', 
-                                background: 'linear-gradient(135deg, #22c55e 0%, #16a34a 100%)', 
+                                background: 'linear-gradient(135deg, var(--accent-green) 0%, var(--accent-blue) 100%)', 
                                 display: 'flex', 
                                 alignItems: 'center', 
                                 justifyContent: 'center', 

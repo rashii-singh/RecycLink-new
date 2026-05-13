@@ -163,8 +163,15 @@ export default function Profile() {
     }
 
     return (
-        <div className="page fade-in">
-            <h2 style={{ textAlign: 'left', marginBottom: '0.5rem', fontSize: '2.5rem', fontWeight: '800', color: 'var(--text-primary)', letterSpacing: '-0.04em' }}>Profile</h2>
+        <div className="page page-container fade-in">
+            <div style={{ textAlign: 'left', paddingLeft: '0.5rem', marginBottom: '1.5rem' }}>
+                <h1 style={{ fontSize: '2rem', color: 'var(--heading-color)', fontWeight: '700', margin: '0 0 0.5rem 0', lineHeight: '1.2', paddingBottom: '0.2rem' }}>
+                    Profile
+                </h1>
+                <p style={{ color: 'var(--text-secondary)', fontSize: '1rem', margin: 0, fontWeight: '500' }}>
+                    Manage your personal information and account preferences
+                </p>
+            </div>
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
                 {/* Top Profile Card */}

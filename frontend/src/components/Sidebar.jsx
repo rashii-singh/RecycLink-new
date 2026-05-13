@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 
 export default function Sidebar({ isOpen, onClose }) {
     const location = useLocation();
@@ -13,15 +14,27 @@ export default function Sidebar({ isOpen, onClose }) {
 
     if (location.pathname === '/login') return null;
 
-    const navItems = [
+    const { currentUser } = useAuth();
+
+    const allNavItems = [
         { 
             path: '/', 
             label: 'Home',
             icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
         },
         { 
+            path: '/collector-dashboard', 
+            label: 'Collector Hub',
+            icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+        },
+        { 
+            path: '/eco-rider-dashboard', 
+            label: 'Eco Rider Hub',
+            icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path></svg>
+        },
+        { 
             path: '/dashboard', 
-            label: 'Dashboard',
+            label: 'My Dashboard',
             icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
         },
         { 
@@ -56,6 +69,16 @@ export default function Sidebar({ isOpen, onClose }) {
         },
     ];
 
+    const navItems = allNavItems.filter(item => {
+        if (currentUser?.role === 'collector') {
+            return !['/dashboard', '/request-pickup', '/sell', '/threshold', '/eco-rider-dashboard'].includes(item.path);
+        } else if (currentUser?.role === 'eco-rider') {
+            return !['/dashboard', '/request-pickup', '/sell', '/threshold', '/collector-dashboard'].includes(item.path);
+        } else {
+            return !['/collector-dashboard', '/eco-rider-dashboard'].includes(item.path);
+        }
+    });
+
     return (
         <>
             {/* Desktop Sidebar - Unchanged Layout */}
@@ -68,8 +91,23 @@ export default function Sidebar({ isOpen, onClose }) {
                                 key={item.path} 
                                 to={item.path} 
                                 className={`sidebar-item ${isActive ? 'active' : ''}`}
+                                style={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    gap: '0.75rem',
+                                    padding: '0.8rem 1rem',
+                                    borderRadius: '12px',
+                                    transition: 'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
+                                    marginBottom: '0.4rem',
+                                    textDecoration: 'none',
+                                    fontSize: '0.925rem',
+                                    fontWeight: isActive ? '600' : '500'
+                                }}
                             >
-                                <span className="sidebar-icon">{item.icon}</span>
+                                <span className="sidebar-icon" style={{ 
+                                    color: isActive ? 'var(--accent-green)' : 'var(--text-secondary)',
+                                    opacity: isActive ? 1 : 0.8
+                                }}>{item.icon}</span>
                                 <span className="sidebar-label">{item.label}</span>
                             </Link>
                         );
@@ -98,6 +136,19 @@ export default function Sidebar({ isOpen, onClose }) {
                                 to={item.path} 
                                 className={`mobile-sidebar-item ${isActive ? 'active' : ''}`}
                                 onClick={onClose}
+                                style={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    gap: '1rem',
+                                    padding: '1rem 1.25rem',
+                                    borderRadius: '12px',
+                                    marginBottom: '0.5rem',
+                                    textDecoration: 'none',
+                                    fontWeight: isActive ? '600' : '500',
+                                    background: isActive ? 'var(--accent-green-soft)' : 'transparent',
+                                    color: isActive ? 'var(--accent-green)' : 'var(--text-primary)',
+                                    border: isActive ? '1px solid var(--accent-green)' : '1px solid transparent'
+                                }}
                             >
                                 <span className="mobile-sidebar-icon">{item.icon}</span>
                                 <span className="mobile-sidebar-label">{item.label}</span>

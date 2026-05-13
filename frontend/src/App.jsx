@@ -16,6 +16,8 @@ import Settings from './pages/Settings'
 import Help from './pages/Help'
 import DisposalCenters from './pages/DisposalCenters'
 import SellRecyclables from './pages/SellRecyclables'
+import CollectorDashboard from './pages/CollectorDashboard'
+import EcoRiderDashboard from './pages/EcoRiderDashboard'
 import { AuthProvider, useAuth } from './context/AuthContext'
 import { LanguageProvider } from './context/LanguageContext'
 import { ThemeProvider } from './context/ThemeContext'
@@ -58,6 +60,8 @@ function AppContent() {
             <Route path="/request-pickup" element={<ProtectedRoute><RequestPickup /></ProtectedRoute>} />
             <Route path="/disposal-centers" element={<ProtectedRoute><DisposalCenters /></ProtectedRoute>} />
             <Route path="/sell" element={<ProtectedRoute><SellRecyclables /></ProtectedRoute>} />
+            <Route path="/collector-dashboard" element={<ProtectedRoute><CollectorDashboard /></ProtectedRoute>} />
+            <Route path="/eco-rider-dashboard" element={<ProtectedRoute><EcoRiderDashboard /></ProtectedRoute>} />
           </Routes>
           <BottomNav />
           <Chatbot />

@@ -9,13 +9,13 @@ const CATEGORY_DATA = [
     {
         id: 'wet',
         title: 'Wet Waste',
-        bgColor: '#2b9348',
+        bgColor: '#22c55e',
         description: 'Food leftovers, vegetable peels and other biodegradable waste.',
         icon: <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1.5 2 2 4.5 2 9 0 5-4.5 9-10 9z"></path><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"></path></svg>,
         modalIcon: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1.5 2 2 4.5 2 9 0 5-4.5 9-10 9z"></path><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"></path></svg>,
         items: ['Food leftovers', 'Vegetable and fruit peels', 'Meat and bones', 'Tea leaves and coffee grounds', 'Garden waste'],
         dustbinColor: 'Green',
-        dustbinHex: '#2b9348',
+        dustbinHex: '#22c55e',
         dustbinInstruction: 'Wet waste should be kept in the green dustbin for proper composting.'
     },
     {
@@ -45,7 +45,7 @@ const CATEGORY_DATA = [
     {
         id: 'hazardous',
         title: 'Hazardous Waste',
-        bgColor: '#262626',
+        bgColor: '#1e293b',
         description: 'Bulbs, medicines, paint and e-waste.',
         icon: <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>,
         modalIcon: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>,
@@ -60,27 +60,45 @@ const CategoryCard = ({ category, onClick }) => {
     return (
         <div
             onClick={() => onClick(category)}
-            className="guide-card"
+            className="feature-card"
             style={{
                 background: category.bgColor,
-                borderRadius: '12px',
-                padding: '2rem 1.5rem',
+                borderRadius: '24px',
+                padding: '2.5rem 1.5rem',
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'center',
                 textAlign: 'center',
                 gap: '1rem',
                 cursor: 'pointer',
-                transition: 'transform 0.2s ease, box-shadow 0.2s ease',
-                color: 'white',
-                boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)'
+                transition: 'all 0.3s ease',
+                border: 'none',
+                boxShadow: 'var(--shadow-md)',
+                color: 'white'
             }}
-            onMouseOver={e => { e.currentTarget.style.transform = 'translateY(-4px)'; e.currentTarget.style.boxShadow = '0 10px 15px -3px rgba(0, 0, 0, 0.1)' }}
-            onMouseOut={e => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 4px 6px -1px rgba(0, 0, 0, 0.1)' }}
+            onMouseOver={e => { 
+                e.currentTarget.style.transform = 'translateY(-8px)'; 
+                e.currentTarget.style.boxShadow = 'var(--shadow-lg)';
+            }}
+            onMouseOut={e => { 
+                e.currentTarget.style.transform = 'translateY(0)'; 
+                e.currentTarget.style.boxShadow = 'var(--shadow-md)';
+            }}
         >
-            <div style={{ marginBottom: '0.5rem' }}>{category.icon}</div>
-            <h4 style={{ fontSize: '1.25rem', margin: '0', fontWeight: '700' }}>{category.title}</h4>
-            <p style={{ opacity: 0.9, fontSize: '0.9rem', margin: 0, fontWeight: '500', lineHeight: '1.4' }}>{category.description}</p>
+            <div style={{ 
+                width: '64px', 
+                height: '64px', 
+                background: 'rgba(255, 255, 255, 0.2)', 
+                borderRadius: '16px', 
+                display: 'flex', 
+                alignItems: 'center', 
+                justifyContent: 'center',
+                marginBottom: '0.5rem'
+            }}>
+                {React.cloneElement(category.icon, { stroke: 'white', width: 32, height: 32 })}
+            </div>
+            <h4 style={{ fontSize: '1.25rem', margin: '0', fontWeight: '700', color: '#4ade80' }}>{category.title}</h4>
+            <p style={{ color: 'rgba(255, 255, 255, 0.9)', fontSize: '0.95rem', margin: 0, fontWeight: '400', lineHeight: '1.4' }}>{category.description}</p>
         </div>
     )
 }
@@ -149,37 +167,68 @@ export default function Home() {
     }
 
     return (
-        <div className="home-container fade-in">
-            <div className="hero-section" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.6rem', textAlign: 'center', marginBottom: '1rem' }}>
-                <h1 className="hero-title" style={{ fontSize: '3.5rem', margin: 0, fontWeight: '800', letterSpacing: '-0.05em', lineHeight: '1.1', color: 'var(--text-primary)' }}>Recycle Smart, Live Green</h1>
-                <h2 className="hero-feature-title" style={{ fontSize: '2.8rem', color: 'var(--accent-green)', fontWeight: '800', margin: '0.5rem 0 0.2rem 0', letterSpacing: '-0.03em', textTransform: 'capitalize' }}>AI Waste Detection</h2>
-                <p className="hero-subtitle" style={{ fontSize: '1.15rem', color: 'var(--text-secondary)', maxWidth: '600px', margin: '0.8rem auto 0', lineHeight: '1.6', fontWeight: '500' }}>
-                    Smarter waste segregation and optimized collection powered by real-time data and AI
+        <div className="home-container page-container fade-in">
+            <div className="hero-section" style={{ marginBottom: '1.5rem', textAlign: 'left' }}>
+                <h1 className="hero-title" style={{ marginBottom: '0.6rem', paddingBottom: '0.4rem', textAlign: 'left' }}>
+                    Recycle Smart, Live Green
+                </h1>
+                <p className="hero-subtitle" style={{ fontSize: '1.1rem', margin: '0', maxWidth: '800px', lineHeight: '1.6', textAlign: 'left', fontWeight: '500', color: 'var(--text-secondary)' }}>
+                    Smarter waste segregation and optimized collection powered by real-time data and AI.<br />
+                    Join the sustainable revolution today.
                 </p>
             </div>
 
-            <div className="upload-wrapper">
+            <div className="upload-wrapper" style={{ width: '100%', background: 'var(--accent-green-soft)', padding: '1rem 2rem', borderRadius: '32px', border: '1px solid var(--accent-green)22', marginBottom: '1.5rem' }}>
+                <div style={{ textAlign: 'center', marginBottom: '0.2rem' }}>
+                    <h2 style={{ marginBottom: '0.25rem' }}>AI Waste Detection</h2>
+                    <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>Upload an image to identify the waste type and get disposal instructions.</p>
+                </div>
                 <UploadBox onUpload={handleUpload} loading={loading} />
 
                 {result && (
-                    <div className="result-wrapper fade-in-up">
+                    <div className="result-wrapper fade-in-up" style={{ marginTop: '2.5rem' }}>
                         <ResultCard result={result} />
                     </div>
                 )}
             </div>
 
             {!result && !loading && (
-                <div style={{ display: 'flex', flexDirection: 'column', width: '100%', gap: '3rem' }}>
+                <div style={{ display: 'flex', flexDirection: 'column', width: '100%', gap: '2rem', marginTop: '0.5rem' }}>
+                    {/* Main Features Grid */}
+                    <div className="features-section">
+                        <h2 style={{ textAlign: 'center', marginBottom: '1rem' }}>Explore Features</h2>
+                        <div className="features-grid" style={{
+                            display: 'grid',
+                            gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+                            gap: '1rem',
+                            width: '100%'
+                        }}>
+                            <div className="feature-card blue-accent" onClick={() => navigate('/request-pickup')} style={{ cursor: 'pointer', padding: '1.5rem' }}>
+                                <div className="feature-icon" style={{ background: 'var(--accent-blue-soft)', color: 'var(--accent-blue)', width: '50px', height: '50px', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.5rem', marginBottom: '1rem' }}>🚛</div>
+                                <h3 style={{ fontSize: '1.15rem', marginBottom: '0.4rem' }}>Smart Pickup System</h3>
+                                <p style={{ fontSize: '0.9rem', color: 'var(--text-secondary)', lineHeight: '1.4' }}>Schedule on-demand waste collection at your convenience. Real-time tracking included.</p>
+                            </div>
+                            <div className="feature-card" onClick={() => navigate('/sell')} style={{ cursor: 'pointer', padding: '1.5rem' }}>
+                                <div className="feature-icon" style={{ background: 'var(--accent-green-soft)', color: 'var(--accent-green)', width: '50px', height: '50px', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.5rem', marginBottom: '1rem' }}>💰</div>
+                                <h3 style={{ fontSize: '1.15rem', marginBottom: '0.4rem' }}>Recycling Marketplace</h3>
+                                <p style={{ fontSize: '0.9rem', color: 'var(--text-secondary)', lineHeight: '1.4' }}>Turn your trash into cash. Sell dry recyclables and earn rewards instantly.</p>
+                            </div>
+                            <div className="feature-card blue-accent" onClick={() => navigate('/dashboard')} style={{ cursor: 'pointer', padding: '1.5rem' }}>
+                                <div className="feature-icon" style={{ background: 'var(--accent-blue-soft)', color: 'var(--accent-blue)', width: '50px', height: '50px', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.5rem', marginBottom: '1rem' }}>📊</div>
+                                <h3 style={{ fontSize: '1.15rem', marginBottom: '0.4rem' }}>Real-time Waste Management</h3>
+                                <p style={{ fontSize: '0.9rem', color: 'var(--text-secondary)', lineHeight: '1.4' }}>Monitor your environmental impact and track disposal statistics in real-time.</p>
+                            </div>
+                        </div>
+                    </div>
+
                     {/* Waste Segregation Guide Section */}
-                    <div className="guide-section fade-in-up" style={{ width: '100%', marginTop: '1rem' }}>
-                        <h3 style={{ color: 'var(--heading-color)', fontSize: '1.8rem', textAlign: 'center', marginBottom: '2.5rem', fontWeight: '800' }}>Waste Segregation Guide</h3>
+                    <div className="guide-section">
+                        <h2 style={{ textAlign: 'center', marginBottom: '1rem' }}>Waste Segregation Guide</h2>
                         <div className="guide-grid" style={{
                             display: 'grid',
-                            gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
-                            gap: '1.5rem',
-                            width: '100%',
-                            maxWidth: '1000px',
-                            margin: '0 auto'
+                            gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
+                            gap: '1rem',
+                            width: '100%'
                         }}>
                             {CATEGORY_DATA.map(cat => (
                                 <CategoryCard key={cat.id} category={cat} onClick={setSelectedCategory} />

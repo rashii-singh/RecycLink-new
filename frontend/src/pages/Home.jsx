@@ -76,22 +76,22 @@ const CategoryCard = ({ category, onClick }) => {
                 boxShadow: 'var(--shadow-md)',
                 color: 'white'
             }}
-            onMouseOver={e => { 
-                e.currentTarget.style.transform = 'translateY(-8px)'; 
+            onMouseOver={e => {
+                e.currentTarget.style.transform = 'translateY(-8px)';
                 e.currentTarget.style.boxShadow = 'var(--shadow-lg)';
             }}
-            onMouseOut={e => { 
-                e.currentTarget.style.transform = 'translateY(0)'; 
+            onMouseOut={e => {
+                e.currentTarget.style.transform = 'translateY(0)';
                 e.currentTarget.style.boxShadow = 'var(--shadow-md)';
             }}
         >
-            <div style={{ 
-                width: '64px', 
-                height: '64px', 
-                background: 'rgba(255, 255, 255, 0.2)', 
-                borderRadius: '16px', 
-                display: 'flex', 
-                alignItems: 'center', 
+            <div style={{
+                width: '64px',
+                height: '64px',
+                background: 'rgba(255, 255, 255, 0.2)',
+                borderRadius: '16px',
+                display: 'flex',
+                alignItems: 'center',
                 justifyContent: 'center',
                 marginBottom: '0.5rem'
             }}>
@@ -118,7 +118,7 @@ export default function Home() {
             const formData = new FormData();
             formData.append('file', image);
 
-            const response = await fetch('http://127.0.0.1:5000/predict', {
+            const response = await fetch('https://recyclink-new.onrender.com/predict', {
                 method: 'POST',
                 body: formData
             });

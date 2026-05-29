@@ -144,12 +144,20 @@ export default function Home() {
             console.log("LOG: Backend Response - Predicted Class ->", detectedType, "| Confidence ->", data.confidence);
             console.log("LOG: Mapping Selected ->", matchedKey);
 
+            let explanation = details.explanation;
+            if (data.top_predictions && data.top_predictions.length > 0) {
+                const topList = data.top_predictions
+                    .map((pred, i) => `• ${pred.category} — ${pred.confidence}%`)
+                    .join('\n');
+                explanation = `${details.explanation}\n\n📊 Top Predictions:\n${topList}`;
+            }
+
             const updatedResult = {
                 category: matchedKey,
                 confidence: data.confidence,
                 timestamp: new Date().toISOString(),
                 imageUrl: URL.createObjectURL(image),
-                explanation: details.explanation,
+                explanation: explanation,
                 instructions: details.instructions,
                 eco_tip: details.ecoTip,
                 color: details.hex,

@@ -79,6 +79,24 @@ export const WASTE_MAPPING = {
         explanation: 'Non-recyclable or mixed materials that must be safely contained.',
         instructions: 'Ensure no recyclable materials are included. Bag securely.',
         ecoTip: 'Reducing overall waste is the most effective way to help the environment.'
+    },
+    'Unable to confidently identify waste type': {
+        color: 'black',
+        hex: '#6b7280',
+        emoji: '❓',
+        binType: 'Unknown',
+        explanation: 'The AI model could not identify the waste type with high enough confidence (below 70%). This is to prevent incorrect sorting recommendations.',
+        instructions: 'Please try taking another photo with better lighting or a clearer angle. Alternatively, manually inspect the item and place it in the appropriate bin.',
+        ecoTip: 'When in doubt, manually verify the material or follow local disposal guidelines.'
+    },
+    'Mixed or unclear waste detected': {
+        color: 'black',
+        hex: '#4b5563',
+        emoji: '🔄',
+        binType: 'Unknown',
+        explanation: 'The AI detected multiple material types or unclear waste items (confidence between 70% and 85%). Mixed waste cannot be recycled directly in a single stream.',
+        instructions: 'Please separate wet/organic waste from recyclable dry items (paper, plastic, metal) and place them in their respective bins. If segregation is not possible, place in the general trash bin.',
+        ecoTip: 'Proper segregation at the source prevents recyclable items from being contaminated by wet organic waste.'
     }
 };
 

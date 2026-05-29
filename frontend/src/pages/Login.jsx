@@ -76,12 +76,12 @@ export default function Login() {
     };
 
     return (
-        <div style={{ minHeight: 'calc(100vh - 120px)', background: 'var(--bg-color)', display: 'flex', flexDirection: 'column' }}>
+        <div className="login-page-container" style={{ minHeight: 'calc(100vh - 120px)', background: 'var(--bg-color)', display: 'flex', flexDirection: 'column' }}>
             {/* Split Layout Container */}
-            <div style={{ display: 'flex', flexWrap: 'wrap', width: '100%', flex: 1 }}>
+            <div className="login-split-container" style={{ display: 'flex', flexWrap: 'wrap', width: '100%', flex: 1 }}>
                 
                 {/* Left Side: Hero Text & Illustration */}
-                <div style={{ flex: '1 1 600px', display: 'flex', flexDirection: 'column', background: 'var(--sidebar-bg)', padding: '0.5rem 2rem', position: 'relative', overflow: 'hidden' }}>
+                <div className="login-left-side" style={{ flex: '1 1 600px', display: 'flex', flexDirection: 'column', background: 'var(--sidebar-bg)', padding: '0.5rem 2rem', position: 'relative', overflow: 'hidden' }}>
                     
                     {/* Text Section */}
                     <div style={{ maxWidth: '650px', margin: '0 auto', width: '100%', zIndex: 2 }}>
@@ -290,7 +290,7 @@ export default function Login() {
                 </div>
 
                 {/* Right Side: Login Form */}
-                <div style={{ flex: '1 1 400px', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '0.5rem 2rem', background: 'var(--bg-color)' }}>
+                <div className="login-right-side" style={{ flex: '1 1 400px', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '0.5rem 2rem', background: 'var(--bg-color)' }}>
                     <div className="info-card" style={{ maxWidth: '400px', width: '100%', textAlign: 'center', boxShadow: '0 10px 25px rgba(0,0,0,0.05)', padding: '1.8rem', background: 'var(--card-bg)', border: '1px solid var(--border-color)' }}>
                         <h2 style={{ color: 'var(--text-primary)', marginBottom: '0.4rem', fontSize: '1.6rem', fontWeight: '800' }}>
                             {isSignUp ? 'Create an Account' : 'Welcome Back'}

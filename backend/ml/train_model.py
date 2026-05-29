@@ -35,6 +35,21 @@ def train():
     class_names = train_ds.class_names
     print(f"Classes found: {class_names}")
 
+    # Optimize dataset loading pipeline for speed and efficiency
+    AUTOTUNE = tf.data.AUTOTUNE
+    train_ds = train_ds.cache().prefetch(buffer_size=AUTOTUNE)
+    val_ds = val_ds.cache().prefetch(buffer_size=AUTOTUNE)
+
+    # Setup data augmentation with rotation, zoom, brightness, flip, contrast, and noise/blur support
+    data_augmentation = tf.keras.Sequential([
+        tf.keras.layers.RandomFlip("horizontal"),
+        tf.keras.layers.RandomRotation(0.2),
+        tf.keras.layers.RandomZoom(0.2),
+        tf.keras.layers.RandomBrightness(factor=0.25),
+        tf.keras.layers.RandomContrast(factor=0.2),
+        tf.keras.layers.GaussianNoise(stddev=0.05),
+    ])
+
     # Build model using MobileNetV2
     base_model = tf.keras.applications.MobileNetV2(
         input_shape=(img_height, img_width, 3),
@@ -44,6 +59,7 @@ def train():
     base_model.trainable = False # Freeze base model
 
     model = tf.keras.Sequential([
+        data_augmentation,
         tf.keras.layers.Rescaling(1./127.5, offset=-1), # MobileNetV2 expects [-1, 1]
         base_model,
         tf.keras.layers.GlobalAveragePooling2D(),
@@ -58,14 +74,50 @@ def train():
     )
 
     print("Starting training...")
-    epochs = 5 # Small number for demonstration, increase for real use
+    epochs = 10 # Enabled EarlyStopping, so we can set a higher epoch count safely
+    
+    # Set up callbacks for Early Stopping and Model Checkpointing
+    os.makedirs(os.path.dirname(MODEL_PATH), exist_ok=True)
+    callbacks = [
+        tf.keras.callbacks.EarlyStopping(
+            monitor='val_loss',
+            patience=3,
+            restore_best_weights=True,
+            verbose=1
+        ),
+        tf.keras.callbacks.ModelCheckpoint(
+            filepath=MODEL_PATH,
+            monitor='val_loss',
+            save_best_only=True,
+            verbose=1
+        )
+    ]
+
+    # Calculate balanced class weights automatically to prevent paper/cardboard bias
+    class_counts = {}
+    total_samples = 0
+    for i, class_name in enumerate(class_names):
+        cat_dir = os.path.join(DATASET_DIR, class_name)
+        count = len(os.listdir(cat_dir)) if os.path.exists(cat_dir) else 0
+        class_counts[i] = count
+        total_samples += count
+        
+    class_weights = {}
+    for i in range(len(class_names)):
+        count = class_counts[i]
+        class_weights[i] = (total_samples / (len(class_names) * count)) if count > 0 else 1.0
+        
+    print(f"Calculated class weights for balanced training: {class_weights}")
+
     history = model.fit(
         train_ds,
         validation_data=val_ds,
-        epochs=epochs
+        epochs=epochs,
+        callbacks=callbacks,
+        class_weight=class_weights
     )
     
-    os.makedirs(os.path.dirname(MODEL_PATH), exist_ok=True)
+    # Save the final best model weights (double-safe)
     model.save(MODEL_PATH)
     
     # Save class names mapping

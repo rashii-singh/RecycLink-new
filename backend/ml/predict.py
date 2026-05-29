@@ -24,11 +24,23 @@ def load_classifier():
             return False
     return False
 
+def get_friendly_name(cat):
+    mapping = {
+        "organic": "Organic Waste",
+        "cardboard": "Cardboard",
+        "glass": "Glass",
+        "metal": "Metal",
+        "paper": "Paper",
+        "plastic": "Plastic",
+        "trash": "Trash"
+    }
+    return mapping.get(cat.lower(), cat.title())
+
 def predict_image(image_bytes):
     global model, class_names
     if model is None:
         if not load_classifier():
-            return None, 0.0
+            return None, 0.0, []
             
     try:
         img = Image.open(io.BytesIO(image_bytes)).convert('RGB')
@@ -37,12 +49,43 @@ def predict_image(image_bytes):
         img_array = tf.expand_dims(img_array, 0) # Create a batch
 
         predictions = model.predict(img_array)
-        score = tf.nn.softmax(predictions[0])
+        score = predictions[0]
         
-        predicted_class = class_names[np.argmax(score)]
-        confidence = float(np.max(score))
+        # Post-prediction temperature scaling for confidence calibration (T = 1.3)
+        epsilon = 1e-7
+        logits = np.log(score + epsilon)
+        temperature = 1.3
+        scaled_logits = logits / temperature
         
-        return predicted_class.title(), confidence
+        # Softmax re-normalization
+        exp_logits = np.exp(scaled_logits - np.max(scaled_logits))
+        calibrated_score = exp_logits / np.sum(exp_logits)
+        
+        predicted_class = class_names[np.argmax(calibrated_score)]
+        confidence = float(np.max(calibrated_score))
+        
+        # Calculate calibrated confidence percentage
+        confidence_pct = round(confidence * 100, 2)
+        
+        # Get top 3 predictions
+        top_indices = np.argsort(calibrated_score)[::-1][:3]
+        top_predictions = []
+        for idx in top_indices:
+            friendly_name = get_friendly_name(class_names[idx])
+            top_predictions.append({
+                "category": friendly_name,
+                "confidence": round(float(calibrated_score[idx]) * 100, 1)
+            })
+        
+        # 1. Below 70% confidence check
+        if confidence_pct < 70.0:
+            return "Unable to confidently identify waste type", confidence_pct / 100.0, top_predictions
+            
+        # 2. Uncertain (between 70% and 85%) check (especially for mixed/organic waste)
+        if confidence_pct < 85.0:
+            return "Mixed or unclear waste detected", confidence_pct / 100.0, top_predictions
+            
+        return predicted_class.title(), confidence_pct / 100.0, top_predictions
     except Exception as e:
         print(f"Prediction error: {e}")
-        return None, 0.0
+        return None, 0.0, []

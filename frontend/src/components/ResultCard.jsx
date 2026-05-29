@@ -110,7 +110,7 @@ export default function ResultCard({ result }) {
             {result.explanation && (
                 <div className="explanation" style={{ marginTop: '1rem', padding: '1rem', background: 'var(--sidebar-bg)', borderRadius: '8px', borderLeft: `4px solid ${color}`, border: '1px solid var(--border-color)', borderLeftWidth: '4px' }}>
                     <h3 style={{ margin: '0 0 0.5rem 0', fontSize: '1rem', color: 'var(--text-primary)' }}>🧠 AI Analysis</h3>
-                    <p style={{ margin: 0, fontSize: '0.95rem', color: 'var(--text-secondary)', lineHeight: '1.6' }}>{result.explanation}</p>
+                    <p style={{ margin: 0, fontSize: '0.95rem', color: 'var(--text-secondary)', lineHeight: '1.6', whiteSpace: 'pre-line' }}>{result.explanation}</p>
                 </div>
             )}
 

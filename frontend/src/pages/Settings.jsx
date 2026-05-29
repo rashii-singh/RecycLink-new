@@ -1,3 +1,4 @@
+import React, { useState, useEffect } from 'react';
 import { useLanguage } from '../context/LanguageContext';
 import { useTheme } from '../context/ThemeContext';
 import { useLocationContext } from '../context/LocationContext';
@@ -7,8 +8,149 @@ export default function Settings() {
     const { theme, toggleTheme } = useTheme();
     const { selectedLoc, setSelectedLoc, PRESET_LOCATIONS } = useLocationContext();
 
+    const [tempLoc, setTempLoc] = useState(selectedLoc);
+    const [loadingLocation, setLoadingLocation] = useState(false);
+    const [locationError, setLocationError] = useState(null);
+
+    // Sync local state if context changes externally
+    useEffect(() => {
+        setTempLoc(selectedLoc);
+    }, [selectedLoc]);
+
+    const detectLocation = () => {
+        if (!navigator.geolocation) {
+            setLocationError('Geolocation is not supported by your browser.');
+            return;
+        }
+        setLoadingLocation(true);
+        setLocationError(null);
+
+        navigator.geolocation.getCurrentPosition(
+            async (position) => {
+                const { latitude, longitude } = position.coords;
+                const apiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
+                
+                if (!apiKey) {
+                    const fallbackLoc = {
+                        name: 'Current Location',
+                        sub: 'Bangalore, KA',
+                        lat: latitude,
+                        lng: longitude
+                    };
+                    setTempLoc(fallbackLoc);
+                    setLoadingLocation(false);
+                    return;
+                }
+
+                try {
+                    const response = await fetch(
+                        `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=${apiKey}`
+                    );
+                    const data = await response.json();
+                    
+                    if (data.status === 'OK' && data.results && data.results.length > 0) {
+                        const result = data.results[0];
+                        
+                        let premise = '';
+                        let route = '';
+                        let sublocality = '';
+                        let locality = 'Bangalore';
+                        let pincode = '';
+                        
+                        for (const component of result.address_components) {
+                            const types = component.types;
+                            if (types.includes('premise') || types.includes('subpremise') || types.includes('point_of_interest') || types.includes('establishment')) {
+                                premise = component.long_name;
+                            } else if (types.includes('street_number')) {
+                                premise = component.long_name + (premise ? ' ' + premise : '');
+                            } else if (types.includes('route')) {
+                                route = component.long_name;
+                            } else if (types.includes('sublocality') || types.includes('sublocality_level_1') || types.includes('neighborhood')) {
+                                sublocality = component.long_name;
+                            } else if (types.includes('locality')) {
+                                locality = component.long_name;
+                            } else if (types.includes('postal_code')) {
+                                pincode = component.long_name;
+                            }
+                        }
+                        
+                        const nameParts = [];
+                        if (premise) nameParts.push(premise);
+                        if (route) nameParts.push(route);
+                        if (sublocality && !nameParts.includes(sublocality)) nameParts.push(sublocality);
+                        
+                        if (nameParts.length === 0) {
+                            const formattedSplit = result.formatted_address.split(',');
+                            if (formattedSplit.length > 0) nameParts.push(formattedSplit[0].trim());
+                            if (formattedSplit.length > 1) nameParts.push(formattedSplit[1].trim());
+                        }
+                        
+                        const name = nameParts.join(', ');
+                        let sub = locality;
+                        if (pincode) {
+                            sub += ` - ${pincode}`;
+                        }
+                        
+                        setTempLoc({
+                            name: name,
+                            sub: sub,
+                            lat: latitude,
+                            lng: longitude
+                        });
+                    } else {
+                        setTempLoc({
+                            name: 'Current Location',
+                            sub: 'Bangalore, KA',
+                            lat: latitude,
+                            lng: longitude
+                        });
+                    }
+                } catch (err) {
+                    console.error('Error fetching geocoding data:', err);
+                    setTempLoc({
+                        name: 'Current Location',
+                        sub: 'Bangalore, KA',
+                        lat: latitude,
+                        lng: longitude
+                    });
+                } finally {
+                    setLoadingLocation(false);
+                }
+            },
+            (error) => {
+                console.error('Geolocation error:', error);
+                let errMsg = 'Failed to detect location.';
+                if (error.code === error.PERMISSION_DENIED) {
+                    errMsg = 'Location permission denied. Please allow location access or select manually.';
+                } else if (error.code === error.POSITION_UNAVAILABLE) {
+                    errMsg = 'Location information is unavailable.';
+                } else if (error.code === error.TIMEOUT) {
+                    errMsg = 'Location request timed out.';
+                }
+                setLocationError(errMsg);
+                setLoadingLocation(false);
+            },
+            { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
+        );
+    };
+
+    // Auto-detect location safely when settings page mounts
+    useEffect(() => {
+        detectLocation();
+    }, []);
+
     return (
         <div className="page">
+            <style>{`
+                @keyframes spin {
+                    0% { transform: rotate(0deg); }
+                    100% { transform: rotate(360deg); }
+                }
+                .spin-icon {
+                    animation: spin 1s linear infinite;
+                }
+            `}</style>
+
             <h2 className="page-title">⚙️ {t('Settings')}</h2>
 
             <div className="info-card">
@@ -74,36 +216,94 @@ export default function Settings() {
                         <span style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>Used for localized waste collection services</span>
                     </div>
                     
-                    <div style={{ width: '100%', display: 'flex', gap: '1rem', alignItems: 'center' }}>
-                        <select 
-                            value={selectedLoc.name}
-                            onChange={(e) => {
-                                const newLoc = PRESET_LOCATIONS.find(l => l.name === e.target.value);
-                                if (newLoc) setSelectedLoc(newLoc);
-                            }}
-                            style={{ 
-                                flex: 1,
-                                padding: '0.8rem 1.2rem', 
-                                borderRadius: '12px', 
-                                border: '1px solid var(--border-color)', 
-                                background: 'var(--card-bg)', 
-                                color: 'var(--text-primary)', 
-                                fontSize: '1rem', 
-                                cursor: 'pointer'
-                            }}
-                        >
-                            {PRESET_LOCATIONS.map(loc => (
-                                <option key={loc.name} value={loc.name}>{loc.name} ({loc.sub})</option>
-                            ))}
-                        </select>
+                    <div style={{ width: '100%', display: 'flex', flexWrap: 'wrap', gap: '1rem', alignItems: 'center' }}>
+                        <div style={{ flex: 1, minWidth: '250px', display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
+                            <select 
+                                value={tempLoc.name}
+                                onChange={(e) => {
+                                    const preset = PRESET_LOCATIONS.find(l => l.name === e.target.value);
+                                    if (preset) {
+                                        setTempLoc(preset);
+                                    }
+                                }}
+                                style={{ 
+                                    flex: 1,
+                                    padding: '0.8rem 1.2rem', 
+                                    borderRadius: '12px', 
+                                    border: '1px solid var(--border-color)', 
+                                    background: 'var(--card-bg)', 
+                                    color: 'var(--text-primary)', 
+                                    fontSize: '1rem', 
+                                    cursor: 'pointer'
+                                }}
+                            >
+                                {/* If tempLoc is not in PRESET_LOCATIONS, display it as a custom option */}
+                                {!PRESET_LOCATIONS.some(loc => loc.name === tempLoc.name) && (
+                                    <option value={tempLoc.name}>
+                                        {tempLoc.name.startsWith('Lat:') ? 'Current Location, Bangalore, KA' : `${tempLoc.name}, ${tempLoc.sub}`}
+                                    </option>
+                                )}
+                                {PRESET_LOCATIONS.map(loc => (
+                                    <option key={loc.name} value={loc.name}>{loc.name}, {loc.sub}</option>
+                                ))}
+                            </select>
+
+                            <button 
+                                type="button"
+                                onClick={detectLocation}
+                                disabled={loadingLocation}
+                                style={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    padding: '0.8rem',
+                                    borderRadius: '12px',
+                                    background: 'rgba(34, 197, 94, 0.15)',
+                                    border: '1px solid var(--accent-green)',
+                                    color: 'var(--accent-green)',
+                                    cursor: 'pointer',
+                                    transition: 'all 0.2s',
+                                    minWidth: '44px',
+                                    minHeight: '44px'
+                                }}
+                                title="Use Current Location"
+                            >
+                                {loadingLocation ? (
+                                    <svg className="spin-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                                        <circle cx="12" cy="12" r="10" strokeDasharray="32" strokeDashoffset="16"></circle>
+                                    </svg>
+                                ) : (
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                                        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                                        <circle cx="12" cy="10" r="3"></circle>
+                                    </svg>
+                                )}
+                            </button>
+                        </div>
+                        
                         <button 
                             className="btn-secondary" 
-                            style={{ padding: '0.8rem 1.5rem', borderRadius: '12px' }}
-                            onClick={() => alert('Location updated successfully!')}
+                            style={{ padding: '0.8rem 1.5rem', borderRadius: '12px', height: '44px' }}
+                            onClick={() => {
+                                setSelectedLoc(tempLoc);
+                                alert('Location updated successfully!');
+                            }}
                         >
                             Save
                         </button>
                     </div>
+
+                    {loadingLocation && (
+                        <div style={{ fontSize: '0.85rem', color: 'var(--accent-green)', fontWeight: '600', marginTop: '0.2rem' }}>
+                            Detecting location...
+                        </div>
+                    )}
+
+                    {locationError && (
+                        <div style={{ fontSize: '0.85rem', color: '#ef4444', fontWeight: '600', marginTop: '0.2rem' }}>
+                            ⚠️ {locationError}
+                        </div>
+                    )}
                 </div>
             </div>
 

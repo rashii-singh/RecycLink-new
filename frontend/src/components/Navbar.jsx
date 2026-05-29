@@ -192,8 +192,12 @@ export default function Navbar(props) {
                     </div>
                     
                     <div className="nav-tooltip">
-                        <span style={{ fontSize: '0.8rem', fontWeight: '800', color: 'var(--text-primary)', whiteSpace: 'nowrap', lineHeight: 1.1 }}>{selectedLoc.name}</span>
-                        <span style={{ fontSize: '0.65rem', color: 'var(--accent-green)', fontWeight: '700', opacity: 0.8 }}>{selectedLoc.sub}</span>
+                        <span style={{ fontSize: '0.8rem', fontWeight: '800', color: 'var(--text-primary)', whiteSpace: 'nowrap', lineHeight: 1.1 }}>
+                            {selectedLoc.name && selectedLoc.name.startsWith('Lat:') ? 'Current Location' : selectedLoc.name}
+                        </span>
+                        <span style={{ fontSize: '0.65rem', color: 'var(--accent-green)', fontWeight: '700', opacity: 0.8 }}>
+                            {selectedLoc.name && selectedLoc.name.startsWith('Lat:') ? 'Bangalore, KA' : selectedLoc.sub}
+                        </span>
                     </div>
                 </div>
 

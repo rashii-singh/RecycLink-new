@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import LiveMap from '../components/LiveMap';
 
 const mockCenters = [
     {
@@ -78,6 +79,9 @@ export default function DisposalCenters() {
                         Find authorized recycling and waste collection hubs near you.
                     </p>
                 </div>
+
+                {/* Map Section */}
+                <LiveMap />
 
                 {/* Location Detection & Search */}
                 <div className="info-card" style={{ padding: '1.5rem', display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>

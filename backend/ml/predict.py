@@ -20,9 +20,10 @@ def load_classifier():
                 class_names = f.read().splitlines()
             return True
         except Exception as e:
+            import traceback
+            traceback.print_exc()
             print(f"Error loading model: {e}")
             return False
-    return False
 
 def get_friendly_name(cat):
     mapping = {
@@ -87,5 +88,7 @@ def predict_image(image_bytes):
             
         return predicted_class.title(), confidence_pct / 100.0, top_predictions
     except Exception as e:
+        import traceback
+    traceback.print_exc()
         print(f"Prediction error: {e}")
         return None, 0.0, []

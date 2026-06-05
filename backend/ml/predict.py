@@ -89,6 +89,6 @@ def predict_image(image_bytes):
         return predicted_class.title(), confidence_pct / 100.0, top_predictions
     except Exception as e:
         import traceback
-    traceback.print_exc()
+        traceback.print_exc()
         print(f"Prediction error: {e}")
         return None, 0.0, []

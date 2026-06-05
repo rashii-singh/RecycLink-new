@@ -184,12 +184,18 @@ export default function Settings() {
                     
                     <div style={{ width: '100%', display: 'flex', flexWrap: 'wrap', gap: '1rem', alignItems: 'center' }}>
                         <div style={{ flex: 1, minWidth: '250px', display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
-                            <select 
+                            <input 
+                                type="text"
+                                list="preset-locations"
                                 value={tempLoc.name}
+                                placeholder="Enter location or select..."
                                 onChange={(e) => {
-                                    const preset = PRESET_LOCATIONS.find(l => l.name === e.target.value);
+                                    const val = e.target.value;
+                                    const preset = PRESET_LOCATIONS.find(l => l.name === val);
                                     if (preset) {
                                         setTempLoc(preset);
+                                    } else {
+                                        setTempLoc({ ...tempLoc, name: val, sub: 'Custom Location' });
                                     }
                                 }}
                                 style={{ 
@@ -200,19 +206,14 @@ export default function Settings() {
                                     background: 'var(--card-bg)', 
                                     color: 'var(--text-primary)', 
                                     fontSize: '1rem', 
-                                    cursor: 'pointer'
+                                    cursor: 'text'
                                 }}
-                            >
-                                {/* If tempLoc is not in PRESET_LOCATIONS, display it as a custom option */}
-                                {!PRESET_LOCATIONS.some(loc => loc.name === tempLoc.name) && (
-                                    <option value={tempLoc.name}>
-                                        {tempLoc.name.startsWith('Lat:') ? 'Current Location, Bangalore, KA' : `${tempLoc.name}, ${tempLoc.sub}`}
-                                    </option>
-                                )}
+                            />
+                            <datalist id="preset-locations">
                                 {PRESET_LOCATIONS.map(loc => (
-                                    <option key={loc.name} value={loc.name}>{loc.name}, {loc.sub}</option>
+                                    <option key={loc.name} value={loc.name}>{loc.sub}</option>
                                 ))}
-                            </select>
+                            </datalist>
 
                             <button 
                                 type="button"

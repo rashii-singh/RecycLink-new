@@ -18,6 +18,7 @@ import DisposalCenters from './pages/DisposalCenters'
 import SellRecyclables from './pages/SellRecyclables'
 import CollectorDashboard from './pages/CollectorDashboard'
 import EcoRiderDashboard from './pages/EcoRiderDashboard'
+import DetectPage from './pages/DetectPage'
 import { AuthProvider, useAuth } from './context/AuthContext'
 import { LanguageProvider } from './context/LanguageContext'
 import { ThemeProvider } from './context/ThemeContext'
@@ -52,6 +53,7 @@ function AppContent() {
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/" element={<ProtectedRoute><Home /></ProtectedRoute>} />
+          <Route path="/detect" element={<ProtectedRoute><DetectPage /></ProtectedRoute>} />
           <Route path="/result" element={<ProtectedRoute><Result /></ProtectedRoute>} />
           <Route path="/dashboard" element={<ProtectedRoute><DashboardPage /></ProtectedRoute>} />
           <Route path="/threshold" element={<ProtectedRoute><ThresholdPage /></ProtectedRoute>} />

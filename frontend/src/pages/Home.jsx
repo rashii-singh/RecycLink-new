@@ -1,9 +1,6 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import UploadBox from '../components/UploadBox'
-import ResultCard from '../components/ResultCard'
 import { useLanguage } from '../context/LanguageContext'
-import { WASTE_MAPPING } from '../constants/wasteMapping'
 
 const CATEGORY_DATA = [
     {
@@ -106,73 +103,7 @@ const CategoryCard = ({ category, onClick }) => {
 export default function Home() {
     const { t } = useLanguage()
     const navigate = useNavigate()
-    const [loading, setLoading] = useState(false)
-    const [result, setResult] = useState(null)
     const [selectedCategory, setSelectedCategory] = useState(null)
-
-    const handleUpload = async (image) => {
-        setLoading(true)
-        setResult(null) // Clear previous result before starting new prediction
-        try {
-            // Send image to backend for prediction
-            const formData = new FormData();
-            formData.append('file', image);
-
-            const response = await fetch(' https://recyclink-77tg.onrender.com/predict', {
-                method: 'POST',
-                body: formData
-            });
-
-            if (!response.ok) {
-                throw new Error(`Prediction failed with status: ${response.status}`);
-            }
-
-            const data = await response.json();
-            console.log("LOG: API response", data);
-
-            let detectedType = data.category || 'Trash';
-            detectedType = String(detectedType).trim();
-
-            // Find case-insensitive match from WASTE_MAPPING keys
-            const matchedKey = Object.keys(WASTE_MAPPING).find(
-                key => key.toLowerCase() === detectedType.toLowerCase()
-            ) || 'Trash';
-
-            const details = WASTE_MAPPING[matchedKey] || WASTE_MAPPING['Trash'];
-
-            console.log("LOG: Frontend Request - Sent file", image.name);
-            console.log("LOG: Backend Response - Predicted Class ->", detectedType, "| Confidence ->", data.confidence);
-            console.log("LOG: Mapping Selected ->", matchedKey);
-
-            let explanation = details.explanation;
-            if (data.top_predictions && data.top_predictions.length > 0) {
-                const topList = data.top_predictions
-                    .map((pred, i) => `• ${pred.category} — ${pred.confidence}%`)
-                    .join('\n');
-                explanation = `${details.explanation}\n\n📊 Top Predictions:\n${topList}`;
-            }
-
-            const updatedResult = {
-                category: matchedKey,
-                confidence: data.confidence,
-                timestamp: new Date().toISOString(),
-                imageUrl: URL.createObjectURL(image),
-                explanation: explanation,
-                instructions: details.instructions,
-                eco_tip: details.ecoTip,
-                color: details.hex,
-                bin_color: details.color,
-                bin_type: details.binType
-            };
-
-            console.log("LOG: updated prediction state", updatedResult);
-            setResult(updatedResult);
-        } catch (error) {
-            console.error('Processing failed:', error)
-        } finally {
-            setLoading(false)
-        }
-    }
 
     return (
         <div className="home-container page-container fade-in">
@@ -186,65 +117,66 @@ export default function Home() {
                 </p>
             </div>
 
-            <div className="upload-wrapper responsive-padding" style={{ width: '100%', background: 'var(--accent-green-soft)', padding: '1.5rem', borderRadius: '32px', border: '1px solid var(--accent-green)22', marginBottom: '1.5rem' }}>
-                <div style={{ textAlign: 'center', marginBottom: '0.2rem' }}>
-                    <h2 style={{ marginBottom: '0.25rem' }}>AI Waste Detection</h2>
-                    <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>Upload an image to identify the waste type and get disposal instructions.</p>
-                </div>
-                <UploadBox onUpload={handleUpload} loading={loading} />
-
-                {result && (
-                    <div className="result-wrapper fade-in-up" style={{ marginTop: '2.5rem' }}>
-                        <ResultCard result={result} />
+            <div style={{ display: 'flex', flexDirection: 'column', width: '100%', gap: '2rem', marginTop: '0.5rem' }}>
+                {/* Main Features Grid */}
+                <div className="features-section">
+                    <h2 style={{ textAlign: 'center', marginBottom: '1rem' }}>Explore Features</h2>
+                    <div className="features-grid" style={{
+                        display: 'grid',
+                        gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+                        gap: '1rem',
+                        width: '100%'
+                    }}>
+                        <div className="feature-card" onClick={() => navigate('/detect')} style={{ cursor: 'pointer', padding: '1.5rem' }}>
+                            <div className="feature-icon" style={{ background: 'var(--accent-green)', color: 'white', width: '50px', height: '50px', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.5rem', marginBottom: '1rem' }}>🤖</div>
+                            <h3 style={{ fontSize: '1.15rem', marginBottom: '0.4rem' }}>AI Waste Detection</h3>
+                            <p style={{ fontSize: '0.9rem', color: 'var(--text-secondary)', lineHeight: '1.4', marginBottom: '1rem' }}>Upload an image and let our AI classify your waste and provide disposal instructions.</p>
+                            <button className="button" style={{ width: '100%', padding: '0.6rem' }} onClick={(e) => { e.stopPropagation(); navigate('/detect'); }}>Try AI Detection</button>
+                        </div>
+                        <div className="feature-card blue-accent" onClick={() => navigate('/request-pickup')} style={{ cursor: 'pointer', padding: '1.5rem' }}>
+                            <div className="feature-icon" style={{ background: 'var(--accent-blue-soft)', color: 'var(--accent-blue)', width: '50px', height: '50px', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.5rem', marginBottom: '1rem' }}>🚛</div>
+                            <h3 style={{ fontSize: '1.15rem', marginBottom: '0.4rem' }}>Smart Pickup System</h3>
+                            <p style={{ fontSize: '0.9rem', color: 'var(--text-secondary)', lineHeight: '1.4' }}>Schedule on-demand waste collection at your convenience. Real-time tracking included.</p>
+                        </div>
+                        <div className="feature-card" onClick={() => navigate('/sell')} style={{ cursor: 'pointer', padding: '1.5rem' }}>
+                            <div className="feature-icon" style={{ background: 'var(--accent-green-soft)', color: 'var(--accent-green)', width: '50px', height: '50px', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.5rem', marginBottom: '1rem' }}>💰</div>
+                            <h3 style={{ fontSize: '1.15rem', marginBottom: '0.4rem' }}>Recycling Marketplace</h3>
+                            <p style={{ fontSize: '0.9rem', color: 'var(--text-secondary)', lineHeight: '1.4' }}>Turn your trash into cash. Sell dry recyclables and earn rewards instantly.</p>
+                        </div>
+                        <div className="feature-card blue-accent" onClick={() => navigate('/disposal-centers')} style={{ cursor: 'pointer', padding: '1.5rem' }}>
+                            <div className="feature-icon" style={{ background: 'var(--accent-blue-soft)', color: 'var(--accent-blue)', width: '50px', height: '50px', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.5rem', marginBottom: '1rem' }}>📍</div>
+                            <h3 style={{ fontSize: '1.15rem', marginBottom: '0.4rem' }}>Nearby Centers</h3>
+                            <p style={{ fontSize: '0.9rem', color: 'var(--text-secondary)', lineHeight: '1.4' }}>Find authorized recycling and waste collection hubs near your current location.</p>
+                        </div>
+                        <div className="feature-card" onClick={() => navigate('/dashboard')} style={{ cursor: 'pointer', padding: '1.5rem' }}>
+                            <div className="feature-icon" style={{ background: 'var(--accent-green-soft)', color: 'var(--accent-green)', width: '50px', height: '50px', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.5rem', marginBottom: '1rem' }}>📊</div>
+                            <h3 style={{ fontSize: '1.15rem', marginBottom: '0.4rem' }}>Real-Time Management</h3>
+                            <p style={{ fontSize: '0.9rem', color: 'var(--text-secondary)', lineHeight: '1.4' }}>Monitor your environmental impact and track disposal statistics in real-time.</p>
+                        </div>
+                        <div className="feature-card blue-accent" onClick={() => navigate('#')} style={{ cursor: 'pointer', padding: '1.5rem', display: 'flex', flexDirection: 'column' }}>
+                            <div className="feature-icon" style={{ background: 'var(--accent-blue-soft)', color: 'var(--accent-blue)', width: '50px', height: '50px', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.5rem', marginBottom: '1rem' }}>🧹</div>
+                            <h3 style={{ fontSize: '1.15rem', marginBottom: '0.4rem' }}>Smart Clean-Up Initiative</h3>
+                            <p style={{ fontSize: '0.9rem', color: 'var(--text-secondary)', lineHeight: '1.4', marginBottom: '1rem', flex: 1 }}>Report illegal dumping zones or garbage accumulation to authorities for clean-up drives. Earn rewards for your contribution.</p>
+                            <button className="button" style={{ width: '100%', padding: '0.6rem', marginTop: 'auto' }} onClick={(e) => { e.stopPropagation(); navigate('#'); }}>Report Location</button>
+                        </div>
                     </div>
-                )}
+                </div>
+
+                {/* Waste Segregation Guide Section */}
+                <div className="guide-section">
+                    <h2 style={{ textAlign: 'center', marginBottom: '1rem' }}>Waste Segregation Guide</h2>
+                    <div className="guide-grid" style={{
+                        display: 'grid',
+                        gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))',
+                        gap: '1rem',
+                        width: '100%'
+                    }}>
+                        {CATEGORY_DATA.map(cat => (
+                            <CategoryCard key={cat.id} category={cat} onClick={setSelectedCategory} />
+                        ))}
+                    </div>
+                </div>
             </div>
-
-            {!result && !loading && (
-                <div style={{ display: 'flex', flexDirection: 'column', width: '100%', gap: '2rem', marginTop: '0.5rem' }}>
-                    {/* Main Features Grid */}
-                    <div className="features-section">
-                        <h2 style={{ textAlign: 'center', marginBottom: '1rem' }}>Explore Features</h2>
-                        <div className="features-grid" style={{
-                            display: 'grid',
-                            gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-                            gap: '1rem',
-                            width: '100%'
-                        }}>
-                            <div className="feature-card blue-accent" onClick={() => navigate('/request-pickup')} style={{ cursor: 'pointer', padding: '1.5rem' }}>
-                                <div className="feature-icon" style={{ background: 'var(--accent-blue-soft)', color: 'var(--accent-blue)', width: '50px', height: '50px', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.5rem', marginBottom: '1rem' }}>🚛</div>
-                                <h3 style={{ fontSize: '1.15rem', marginBottom: '0.4rem' }}>Smart Pickup System</h3>
-                                <p style={{ fontSize: '0.9rem', color: 'var(--text-secondary)', lineHeight: '1.4' }}>Schedule on-demand waste collection at your convenience. Real-time tracking included.</p>
-                            </div>
-                            <div className="feature-card" onClick={() => navigate('/sell')} style={{ cursor: 'pointer', padding: '1.5rem' }}>
-                                <div className="feature-icon" style={{ background: 'var(--accent-green-soft)', color: 'var(--accent-green)', width: '50px', height: '50px', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.5rem', marginBottom: '1rem' }}>💰</div>
-                                <h3 style={{ fontSize: '1.15rem', marginBottom: '0.4rem' }}>Recycling Marketplace</h3>
-                                <p style={{ fontSize: '0.9rem', color: 'var(--text-secondary)', lineHeight: '1.4' }}>Turn your trash into cash. Sell dry recyclables and earn rewards instantly.</p>
-                            </div>
-                            <div className="feature-card blue-accent" onClick={() => navigate('/dashboard')} style={{ cursor: 'pointer', padding: '1.5rem' }}>
-                                <div className="feature-icon" style={{ background: 'var(--accent-blue-soft)', color: 'var(--accent-blue)', width: '50px', height: '50px', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.5rem', marginBottom: '1rem' }}>📊</div>
-                                <h3 style={{ fontSize: '1.15rem', marginBottom: '0.4rem' }}>Real-time Waste Management</h3>
-                                <p style={{ fontSize: '0.9rem', color: 'var(--text-secondary)', lineHeight: '1.4' }}>Monitor your environmental impact and track disposal statistics in real-time.</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    {/* Waste Segregation Guide Section */}
-                    <div className="guide-section">
-                        <h2 style={{ textAlign: 'center', marginBottom: '1rem' }}>Waste Segregation Guide</h2>
-                        <div className="guide-grid" style={{
-                            display: 'grid',
-                            gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))',
-                            gap: '1rem',
-                            width: '100%'
-                        }}>
-                            {CATEGORY_DATA.map(cat => (
-                                <CategoryCard key={cat.id} category={cat} onClick={setSelectedCategory} />
-                            ))}
-                        </div>
-                    </div>
-                </div>
-            )}
 
             {/* Modal Popup */}
             {selectedCategory && (

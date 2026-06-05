@@ -23,6 +23,11 @@ export default function Sidebar({ isOpen, onClose }) {
             icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
         },
         { 
+            path: '/detect', 
+            label: 'AI Detection',
+            icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+        },
+        { 
             path: '/collector-dashboard', 
             label: 'Collector Hub',
             icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
@@ -71,9 +76,9 @@ export default function Sidebar({ isOpen, onClose }) {
 
     const navItems = allNavItems.filter(item => {
         if (currentUser?.role === 'collector') {
-            return !['/dashboard', '/request-pickup', '/sell', '/threshold', '/eco-rider-dashboard'].includes(item.path);
+            return !['/dashboard', '/request-pickup', '/sell', '/threshold', '/eco-rider-dashboard', '/detect'].includes(item.path);
         } else if (currentUser?.role === 'eco-rider') {
-            return !['/dashboard', '/request-pickup', '/sell', '/threshold', '/collector-dashboard'].includes(item.path);
+            return !['/dashboard', '/request-pickup', '/sell', '/threshold', '/collector-dashboard', '/detect'].includes(item.path);
         } else {
             return !['/collector-dashboard', '/eco-rider-dashboard'].includes(item.path);
         }

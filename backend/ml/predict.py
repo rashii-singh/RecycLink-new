@@ -3,7 +3,7 @@ import tensorflow as tf
 from PIL import Image
 import numpy as np
 import io
-from tensorflowkeras.models import load_model
+from tensorflow.keras.models import load_model
 
 MODEL_PATH = os.path.join(os.path.dirname(__file__), '..', 'models', 'waste_classifier.h5')
 CLASSES_PATH = os.path.join(os.path.dirname(__file__), '..', 'models', 'classes.txt')

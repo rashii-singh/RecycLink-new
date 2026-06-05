@@ -19,7 +19,7 @@ export default function DetectPage() {
             const formData = new FormData();
             formData.append('file', image);
 
-            const response = await fetch('http://127.0.0.1:5000/predict', {
+            const response = await fetch('https://recyclink-77tg.onrender.com/predict', {
                 method: 'POST',
                 body: formData
             });

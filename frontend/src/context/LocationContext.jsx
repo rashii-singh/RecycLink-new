@@ -1,10 +1,7 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
 
 export const PRESET_LOCATIONS = [
-    { name: 'REVA University', sub: 'Bangalore, KA', lat: 13.1147, lng: 77.6347 },
-    { name: 'Indiranagar', sub: 'Bangalore, KA', lat: 12.9784, lng: 77.6408 },
-    { name: 'Koramangala', sub: 'Bangalore, KA', lat: 12.9352, lng: 77.6245 },
-    { name: 'Whitefield', sub: 'Bangalore, KA', lat: 12.9698, lng: 77.7500 }
+    { name: 'Sapthagiri NPS University', sub: 'Bangalore, KA', lat: 13.0674, lng: 77.49 }
 ];
 
 const LocationContext = createContext();

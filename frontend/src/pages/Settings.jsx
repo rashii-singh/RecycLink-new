@@ -28,61 +28,27 @@ export default function Settings() {
         navigator.geolocation.getCurrentPosition(
             async (position) => {
                 const { latitude, longitude } = position.coords;
-                const apiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
-                
-                if (!apiKey) {
-                    const fallbackLoc = {
-                        name: 'Current Location',
-                        sub: 'Bangalore, KA',
-                        lat: latitude,
-                        lng: longitude
-                    };
-                    setTempLoc(fallbackLoc);
-                    setLoadingLocation(false);
-                    return;
-                }
-
                 try {
                     const response = await fetch(
-                        `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=${apiKey}`
+                        `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`
                     );
                     const data = await response.json();
                     
-                    if (data.status === 'OK' && data.results && data.results.length > 0) {
-                        const result = data.results[0];
-                        
-                        let premise = '';
-                        let route = '';
-                        let sublocality = '';
-                        let locality = 'Bangalore';
-                        let pincode = '';
-                        
-                        for (const component of result.address_components) {
-                            const types = component.types;
-                            if (types.includes('premise') || types.includes('subpremise') || types.includes('point_of_interest') || types.includes('establishment')) {
-                                premise = component.long_name;
-                            } else if (types.includes('street_number')) {
-                                premise = component.long_name + (premise ? ' ' + premise : '');
-                            } else if (types.includes('route')) {
-                                route = component.long_name;
-                            } else if (types.includes('sublocality') || types.includes('sublocality_level_1') || types.includes('neighborhood')) {
-                                sublocality = component.long_name;
-                            } else if (types.includes('locality')) {
-                                locality = component.long_name;
-                            } else if (types.includes('postal_code')) {
-                                pincode = component.long_name;
-                            }
-                        }
+                    if (data && data.address) {
+                        const addr = data.address;
+                        const premise = addr.amenity || addr.building || '';
+                        const route = addr.road || '';
+                        const sublocality = addr.suburb || addr.neighbourhood || '';
+                        const locality = addr.city || addr.town || addr.village || addr.state_district || 'Unknown';
+                        const pincode = addr.postcode || '';
                         
                         const nameParts = [];
                         if (premise) nameParts.push(premise);
                         if (route) nameParts.push(route);
                         if (sublocality && !nameParts.includes(sublocality)) nameParts.push(sublocality);
                         
-                        if (nameParts.length === 0) {
-                            const formattedSplit = result.formatted_address.split(',');
-                            if (formattedSplit.length > 0) nameParts.push(formattedSplit[0].trim());
-                            if (formattedSplit.length > 1) nameParts.push(formattedSplit[1].trim());
+                        if (nameParts.length === 0 && data.display_name) {
+                            nameParts.push(data.display_name.split(',')[0]);
                         }
                         
                         const name = nameParts.join(', ');
@@ -92,7 +58,7 @@ export default function Settings() {
                         }
                         
                         setTempLoc({
-                            name: name,
+                            name: name || 'Current Location',
                             sub: sub,
                             lat: latitude,
                             lng: longitude
@@ -100,7 +66,7 @@ export default function Settings() {
                     } else {
                         setTempLoc({
                             name: 'Current Location',
-                            sub: 'Bangalore, KA',
+                            sub: 'Unknown',
                             lat: latitude,
                             lng: longitude
                         });
@@ -109,7 +75,7 @@ export default function Settings() {
                     console.error('Error fetching geocoding data:', err);
                     setTempLoc({
                         name: 'Current Location',
-                        sub: 'Bangalore, KA',
+                        sub: 'Unknown',
                         lat: latitude,
                         lng: longitude
                     });

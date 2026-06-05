@@ -118,7 +118,7 @@ export default function Home() {
             const formData = new FormData();
             formData.append('file', image);
 
-            const response = await fetch('https://recyclink-new.onrender.com/predict', {
+            const response = await fetch(' https://recyclink-77tg.onrender.com/predict', {
                 method: 'POST',
                 body: formData
             });

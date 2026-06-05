@@ -31,7 +31,7 @@ function App() {
     formData.append('file', file);
 
     try {
-      const response = await fetch('http://localhost:5000/predict', {
+      const response = await fetch(' https://recyclink-77tg.onrender.com', {
         method: 'POST',
         body: formData,
       });
@@ -60,11 +60,11 @@ function App() {
       <main className="main-card">
         <div className="upload-section" onClick={() => document.getElementById('fileInput').click()}>
           <p>{file ? file.name : "Click or Drag to Upload Waste Image"}</p>
-          <input 
+          <input
             id="fileInput"
-            type="file" 
-            accept="image/*" 
-            onChange={handleFileChange} 
+            type="file"
+            accept="image/*"
+            onChange={handleFileChange}
             style={{ display: 'none' }}
           />
         </div>
@@ -75,9 +75,9 @@ function App() {
           </div>
         )}
 
-        <button 
-          className="button" 
-          onClick={handleUpload} 
+        <button
+          className="button"
+          onClick={handleUpload}
           disabled={loading || !file}
           style={{ marginTop: '1.5rem' }}
         >

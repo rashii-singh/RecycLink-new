@@ -302,7 +302,7 @@ export default function Navbar(props) {
                             </div>
                         </Link>
                         
-                        <div className="nav-tooltip">
+                        <div className="nav-tooltip profile-tooltip">
                             <span style={{ fontSize: '0.8rem', fontWeight: '800', color: 'var(--text-primary)', lineHeight: 1.1 }}>
                                 {currentUser.displayName || 'User'}
                             </span>

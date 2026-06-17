@@ -153,11 +153,11 @@ export default function Home() {
                             <h3 style={{ fontSize: '1.15rem', marginBottom: '0.4rem' }}>Real-Time Management</h3>
                             <p style={{ fontSize: '0.9rem', color: 'var(--text-secondary)', lineHeight: '1.4' }}>Monitor your environmental impact and track disposal statistics in real-time.</p>
                         </div>
-                        <div className="feature-card blue-accent" onClick={() => navigate('#')} style={{ cursor: 'pointer', padding: '1.5rem', display: 'flex', flexDirection: 'column' }}>
+                        <div className="feature-card blue-accent" onClick={() => navigate('/report')} style={{ cursor: 'pointer', padding: '1.5rem', display: 'flex', flexDirection: 'column' }}>
                             <div className="feature-icon" style={{ background: 'var(--accent-blue-soft)', color: 'var(--accent-blue)', width: '50px', height: '50px', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.5rem', marginBottom: '1rem' }}>🧹</div>
                             <h3 style={{ fontSize: '1.15rem', marginBottom: '0.4rem' }}>Smart Clean-Up Initiative</h3>
                             <p style={{ fontSize: '0.9rem', color: 'var(--text-secondary)', lineHeight: '1.4', marginBottom: '1rem', flex: 1 }}>Report illegal dumping zones or garbage accumulation to authorities for clean-up drives. Earn rewards for your contribution.</p>
-                            <button className="button" style={{ width: '100%', padding: '0.6rem', marginTop: 'auto' }} onClick={(e) => { e.stopPropagation(); navigate('#'); }}>Report Location</button>
+                            <button className="button" style={{ width: '100%', padding: '0.6rem', marginTop: 'auto' }} onClick={(e) => { e.stopPropagation(); navigate('/report'); }}>Report Location</button>
                         </div>
                     </div>
                 </div>

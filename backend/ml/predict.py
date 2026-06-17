@@ -78,14 +78,6 @@ def predict_image(image_bytes):
                 "confidence": round(float(calibrated_score[idx]) * 100, 1)
             })
         
-        # 1. Below 70% confidence check
-        if confidence_pct < 70.0:
-            return "Unable to confidently identify waste type", confidence_pct / 100.0, top_predictions
-            
-        # 2. Uncertain (between 70% and 85%) check (especially for mixed/organic waste)
-        if confidence_pct < 85.0:
-            return "Mixed or unclear waste detected", confidence_pct / 100.0, top_predictions
-            
         return predicted_class.title(), confidence_pct / 100.0, top_predictions
     except Exception as e:
         import traceback

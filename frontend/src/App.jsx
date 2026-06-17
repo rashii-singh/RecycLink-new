@@ -19,6 +19,7 @@ import SellRecyclables from './pages/SellRecyclables'
 import CollectorDashboard from './pages/CollectorDashboard'
 import EcoRiderDashboard from './pages/EcoRiderDashboard'
 import DetectPage from './pages/DetectPage'
+import ReportLocation from './pages/ReportLocation'
 import { AuthProvider, useAuth } from './context/AuthContext'
 import { LanguageProvider } from './context/LanguageContext'
 import { ThemeProvider } from './context/ThemeContext'
@@ -65,6 +66,7 @@ function AppContent() {
           <Route path="/sell" element={<ProtectedRoute><SellRecyclables /></ProtectedRoute>} />
           <Route path="/collector-dashboard" element={<ProtectedRoute><CollectorDashboard /></ProtectedRoute>} />
           <Route path="/eco-rider-dashboard" element={<ProtectedRoute><EcoRiderDashboard /></ProtectedRoute>} />
+          <Route path="/report" element={<ProtectedRoute><ReportLocation /></ProtectedRoute>} />
         </Routes>
         <BottomNav />
         <Chatbot />

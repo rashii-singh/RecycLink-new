@@ -18,6 +18,7 @@ export default function ThresholdPage() {
     const [mapError, setMapError] = useState(false)
     const [activeMarker, setActiveMarker] = useState(null)
     const [loading, setLoading] = useState(true)
+    const [useMockData, setUseMockData] = useState(false)
 
     const apiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY
     const mapContainerStyle = {
@@ -33,17 +34,28 @@ export default function ThresholdPage() {
     useEffect(() => {
         window.gm_authFailure = () => setMapError(true);
 
-        window.gm_authFailure = () => setMapError(true);
-
         const loadData = () => {
             const stored = JSON.parse(localStorage.getItem('pickupRequests') || '[]');
-            const rawData = stored.map(docData => {
+            let rawData = stored.map(docData => {
                 return {
                     id: docData.id || Math.random().toString(),
                     latitude: docData.location?.latitude || docData.latitude,
                     longitude: docData.location?.longitude || docData.longitude,
                 }
             }).filter(r => r.latitude && r.longitude);
+
+            if (useMockData) {
+                const mockData = [];
+                // High demand cluster
+                for (let i=0; i<6; i++) mockData.push({ id: `m1-${i}`, latitude: 12.97 + (Math.random()*0.005), longitude: 77.59 + (Math.random()*0.005) });
+                // Normal cluster
+                for (let i=0; i<2; i++) mockData.push({ id: `m2-${i}`, latitude: 12.93 + (Math.random()*0.005), longitude: 77.62 + (Math.random()*0.005) });
+                // Normal cluster
+                mockData.push({ id: `m3-1`, latitude: 12.98, longitude: 77.55 });
+                // High demand cluster
+                for (let i=0; i<8; i++) mockData.push({ id: `m4-${i}`, latitude: 12.91 + (Math.random()*0.005), longitude: 77.58 + (Math.random()*0.005) });
+                rawData = [...rawData, ...mockData];
+            }
 
             const processedClusters = [];
             const visited = new Set();
@@ -79,7 +91,7 @@ export default function ThresholdPage() {
         loadData();
         const interval = setInterval(loadData, 5000);
         return () => clearInterval(interval);
-    }, [])
+    }, [useMockData])
 
     return (
         <div className="page page-container fade-in" style={{ maxWidth: '1000px', margin: '0 auto' }}>
@@ -116,8 +128,26 @@ export default function ThresholdPage() {
                 boxShadow: '0 15px 40px rgba(0,0,0,0.06)',
                 border: '1px solid var(--border-color)'
             }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
-                    <h3 style={{ margin: 0, fontSize: '1.2rem', color: 'var(--text-primary)', fontWeight: '700' }}>Demand Map Legend</h3>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem', flexWrap: 'wrap', gap: '1rem' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                        <h3 style={{ margin: 0, fontSize: '1.2rem', color: 'var(--text-primary)', fontWeight: '700' }}>Demand Map Legend</h3>
+                        <button 
+                            onClick={() => setUseMockData(!useMockData)}
+                            style={{
+                                padding: '0.4rem 1rem',
+                                borderRadius: '20px',
+                                background: useMockData ? 'var(--accent-blue)' : 'var(--sidebar-bg)',
+                                color: useMockData ? 'white' : 'var(--text-primary)',
+                                border: '1px solid var(--border-color)',
+                                cursor: 'pointer',
+                                fontSize: '0.85rem',
+                                fontWeight: '700',
+                                transition: 'all 0.2s'
+                            }}
+                        >
+                            {useMockData ? 'Disable Mock Data' : 'Show Demo with Mock Data'}
+                        </button>
+                    </div>
                     <div style={{ display: 'flex', gap: '1rem' }}>
                         <div style={{
                             background: 'rgba(239, 68, 68, 0.15)',

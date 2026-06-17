@@ -24,10 +24,13 @@ export default function Login() {
         try {
             // Mock login logic
             setTimeout(() => {
+                const nameStr = loginMethod === 'email' ? email.split('@')[0] : `User ${phone.slice(-4)}`;
+                const formattedName = nameStr.split(/[._-]/).map(part => part.charAt(0).toUpperCase() + part.slice(1)).join(' ');
+                
                 login({
-                    uid: 'mock-user-123',
+                    uid: `mock-user-${Date.now()}`,
                     email: loginMethod === 'email' ? email : `${phone}@phone.com`,
-                    displayName: loginMethod === 'email' ? email.split('@')[0] : 'Phone User',
+                    displayName: formattedName,
                     phoneNumber: loginMethod === 'phone' ? phone : '',
                     role: role
                 });
@@ -57,12 +60,22 @@ export default function Login() {
         setLoading(true);
         setError('');
         try {
-            // Mock Google auth
+            // Mock Google auth flow by asking for email
+            const userEmail = window.prompt("Google Sign-In: Choose an account (enter your email address):", "user@gmail.com");
+            
+            if (!userEmail || userEmail.trim() === '') {
+                setLoading(false);
+                return; // User cancelled
+            }
+
+            const nameStr = userEmail.split('@')[0];
+            const formattedName = nameStr.split(/[._-]/).map(part => part.charAt(0).toUpperCase() + part.slice(1)).join(' ');
+
             setTimeout(() => {
                 login({
-                    uid: 'mock-google-123',
-                    email: 'demo@google.com',
-                    displayName: 'Demo User',
+                    uid: `mock-google-${Date.now()}`,
+                    email: userEmail.trim(),
+                    displayName: formattedName,
                     role: role
                 });
                 const target = role === 'collector' ? '/collector-dashboard' : role === 'eco-rider' ? '/eco-rider-dashboard' : '/';

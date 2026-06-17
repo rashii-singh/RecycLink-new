@@ -342,6 +342,16 @@ body.dark-theme .sidebar-item.active {
   }
 }
 
+.profile-tooltip {
+  left: auto;
+  right: 0;
+  transform: translateY(10px);
+}
+
+.nav-tooltip-container:hover .profile-tooltip {
+  transform: translateY(0);
+}
+
 .nav-logo {
   font-size: 1.5rem;
   font-weight: 700;

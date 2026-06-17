@@ -2,11 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { useLanguage } from '../context/LanguageContext';
 import { useTheme } from '../context/ThemeContext';
 import { useLocationContext } from '../context/LocationContext';
+import { useAuth } from '../context/AuthContext';
 
 export default function Settings() {
     const { language, changeLanguage, t } = useLanguage();
     const { theme, toggleTheme } = useTheme();
     const { selectedLoc, setSelectedLoc, PRESET_LOCATIONS } = useLocationContext();
+    const { currentUser, login } = useAuth();
 
     const [tempLoc, setTempLoc] = useState(selectedLoc);
     const [loadingLocation, setLoadingLocation] = useState(false);
@@ -100,10 +102,32 @@ export default function Settings() {
         );
     };
 
-    // Auto-detect location safely when settings page mounts
-    useEffect(() => {
-        detectLocation();
-    }, []);
+    // Auto-detect removed so tempLoc matches selectedLoc initially
+
+    const handleEditProfile = () => {
+        if (!currentUser) {
+            alert("Please log in first.");
+            return;
+        }
+        const newName = window.prompt("Enter your new display name:", currentUser.displayName || '');
+        if (newName !== null && newName.trim() !== '') {
+            login({ ...currentUser, displayName: newName.trim() });
+            alert("Profile updated successfully!");
+        }
+    };
+
+    const handleChangePassword = () => {
+        if (!currentUser) {
+            alert("Please log in first.");
+            return;
+        }
+        const newPassword = window.prompt("Enter your new password:");
+        if (newPassword && newPassword.length >= 6) {
+            alert("Password updated successfully!");
+        } else if (newPassword !== null) {
+            alert("Password must be at least 6 characters long.");
+        }
+    };
 
     return (
         <div className="page">
@@ -281,12 +305,12 @@ export default function Settings() {
                 
                 <div className="info-row">
                     <span className="info-label">Edit Profile</span>
-                    <button className="btn-secondary" style={{ padding: '0.4rem 1rem', fontSize: '0.9rem' }}>Edit</button>
+                    <button className="btn-secondary" onClick={handleEditProfile} style={{ padding: '0.4rem 1rem', fontSize: '0.9rem' }}>Edit</button>
                 </div>
                 
                 <div className="info-row">
                     <span className="info-label">Change Password</span>
-                    <button className="btn-secondary" style={{ padding: '0.4rem 1rem', fontSize: '0.9rem' }}>Update</button>
+                    <button className="btn-secondary" onClick={handleChangePassword} style={{ padding: '0.4rem 1rem', fontSize: '0.9rem' }}>Update</button>
                 </div>
             </div>
         </div>

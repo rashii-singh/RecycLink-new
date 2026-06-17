@@ -1,3 +1,4 @@
+// test deployment
 import React from 'react'
 import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom'
 import Navbar from './components/Navbar'
@@ -43,9 +44,9 @@ function AppContent() {
   return (
     <div className="app-container">
       {showSidebar && (
-        <Sidebar 
-          isOpen={isMobileSidebarOpen} 
-          onClose={() => setIsMobileSidebarOpen(false)} 
+        <Sidebar
+          isOpen={isMobileSidebarOpen}
+          onClose={() => setIsMobileSidebarOpen(false)}
         />
       )}
       <div className={`app-content ${showSidebar ? 'with-sidebar' : ''}`}>
